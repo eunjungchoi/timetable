@@ -15,27 +15,12 @@
  <tr>
  	<td>{{ study.date }}</td>
  	<td>{{ study.title }}</td>
- 	<td>{% if study.cat01 == True %}
- 		True 
- 		 {% endif %}
+	{% for cat in study.cats %}
+ 	<td>{% if cat == True %}
+ 		True
+ 		{% endif %}
 	</td>
-	<td>{% if study.cat02 == True %}
- 		True 
- 		 {% endif %}
-	</td>
-	<td>{% if study.cat03 == True %}
- 		True 
- 		 {% endif %}
-	</td>
-	<td>{% if study.cat04 == True %}
- 		True 
- 		 {% endif %}
-	</td>
-	<td>{% if study.cat05 == True %}
- 		True 
- 		 {% endif %}
-	</td>
-
+	{% endfor %}
  </tr>
  {% endfor %}
 
