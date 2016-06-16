@@ -1,0 +1,29 @@
+<h1>열심히 공부하고 있습니다</h1>
+
+
+<table>
+ <tr>
+ 	<th>date</th>
+ 	<th>title</th>
+ 	<th>python</th>
+ 	<th>django</th>
+ 	<th>coding</th>
+ 	<th>algorithm</th>
+ 	<th>extra</th>
+ </tr>
+{% for study in study_list %}
+ <tr>
+ 	<td>{{ study.date }}</td>
+ 	<td>{{ study.title }}</td>
+	{% for cat in study.cats %}
+ 	<td>{% if cat == True %}
+ 		True
+ 		{% endif %}
+	</td>
+	{% endfor %}
+ </tr>
+ {% endfor %}
+
+ </table>
+
+
