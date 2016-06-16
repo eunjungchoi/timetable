@@ -17,6 +17,9 @@ class Study(models.Model):
 	cat09 = models.BooleanField()
 	cat10 = models.BooleanField()
 
+	def __str__(self):
+		return self.title
+
 
 class Category(models.Model):
 	name01 = models.CharField(max_length=30)
