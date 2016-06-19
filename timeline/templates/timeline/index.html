@@ -16,7 +16,7 @@
  <tr>
  	<td>{{ study.date }}</td>
  	<td>{{ study.title }}</td>
-	{$ for cat in categories %}	 
+	{% for cat in categories %}	 
 	<td>
 		{% if cat in study.category %}
  		True
@@ -25,7 +25,7 @@
 	{% endfor %}
  </tr>
  {% endfor %}
- 
+
  </table>
 
 
