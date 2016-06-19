@@ -1,0 +1,50 @@
+<html>
+<head>
+</head>
+<body>
+<h3>I'd studied... </h3>
+	
+<form action="/add/" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+
+    <li>title :<input type="text" name="title" id="title" value="" /></li>
+    <li>date :<input type="text" format='%Y-%m-%d' name="date" id="date" value="" /></li>
+    
+    {% for category in categories %}
+    <input type="checkbox" name={{category.name}} id={{category.name}} value={{category.name}} />
+    <label for={{category.name}}>{{category.name}}</label>
+ 	{% endfor %}
+
+<input type="submit" value="add" />
+</form>
+
+<a href="{% url 'index' %}">취소</a>
+
+</body>
+</html>
+
+<!-- <h2> Category List </h2>
+		<ul>
+			{% for category in object_list %}
+				<li><a href="{% url 'hangout:category_detail' category.id %}">{{ category.name }}</a></li>
+			{% endfor %}
+		</ul> -->
+
+	<!-- 	<input type="checkbox" name="cat02" id="cat02" value="" />
+    <label for='cat02'>category01</label>
+    <input type="checkbox" name="cat03" id="cat03" value="" />
+    <label for='cat03'>category01</label>
+    <input type="checkbox" name="cat04" id="cat04" value="" />
+    <label for='cat04'>category01</label>
+    <input type="checkbox" name="cat05" id="cat05" value="" />
+    <label for='cat05'>category01</label>
+    <input type="checkbox" name="cat06" id="cat06" value="" />
+    <label for='cat06'>category01</label>
+    <input type="checkbox" name="cat07" id="cat07" value="" />
+    <label for='cat07'>category01</label>
+    <input type="checkbox" name="cat08" id="cat08" value="" />
+    <label for='cat08'>category01</label>
+    <input type="checkbox" name="cat09" id="cat09" value="" />
+    <label for='cat09'>category01</label>
+    <input type="checkbox" name="cat10" id="cat10" value="" />
+    <label for='cat10'>category01</label><br> -->

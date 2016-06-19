@@ -19,5 +19,8 @@ from timeline import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index, name='index')
+    url(r'^$', views.index, name='index'),
+    url(r'^form/$', views.form, name='form'),
+    url(r'^add/$', views.add, name='add')
 ]
+
