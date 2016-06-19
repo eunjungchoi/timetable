@@ -10,14 +10,6 @@ def index(request):
 	study_list = Study.objects.all().order_by('date')
 	categories = Category.objects.all()
 
-	# for study in study_list:
-	# 	study.cats = []
-	# 	study.cats.append(study.cat01)
-	# 	study.cats.append(study.cat02)
-	# 	study.cats.append(study.cat03)
-	# 	study.cats.append(study.cat04)
-	# 	study.cats.append(study.cat05)
-
 	context = {
 		'study_list' : study_list,
 		'categories' : categories
@@ -38,15 +30,14 @@ def form(request):
 
 def add(request):
 	s = Study(
-		title=request.POST['name'],
+		title=request.POST['title'],
 		date=request.POST['date'], 
-		category=request.POST['category.name']
+		category=request.POST.getlist('category')
 		)
 	s.save()
 
 	return redirect('/')
 	
-
 
 
 
@@ -59,7 +50,13 @@ def add(request):
 
 	# return render(request, 'timeline/index.html', context)
 
-
+	# for study in study_list:
+	# 	study.cats = []
+	# 	study.cats.append(study.cat01)
+	# 	study.cats.append(study.cat02)
+	# 	study.cats.append(study.cat03)
+	# 	study.cats.append(study.cat04)
+	# 	study.cats.append(study.cat05)
 
 		# cat02=request.POST['cat02'],
 		# cat03=request.POST['cat03'],

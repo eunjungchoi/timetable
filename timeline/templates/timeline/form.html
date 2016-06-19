@@ -11,8 +11,8 @@
     <li>date :<input type="text" format='%Y-%m-%d' name="date" id="date" value="" /></li>
     
     {% for category in categories %}
-    <input type="checkbox" name={{category.name}} id={{category.name}} value={{category.name}} />
-    <label for={{category.name}}>{{category.name}}</label>
+    <input type="checkbox" name=category id=category value=category />
+    <label for=category>{{category.name}}</label>
  	{% endfor %}
 
 <input type="submit" value="add" />
