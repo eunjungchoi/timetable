@@ -1,7 +1,15 @@
+{{ user.username }} 님 로그인하셨습니다. 
+
 <h3>열심히 공부하고 있습니다</h3>
 
-<a href="/catform/">카테고리 추가하기</a>
 
+<form action="/catadd/" method="post">
+{% csrf_token %}
+ 카테고리 추가하기 :<input type="name" name="name" id="name" value="" /><input type="submit" value="add" />
+</form>
+
+<!-- <a href="/catform/">카테고리 추가하기</a>
+ -->
 
 <table>
  <tr>
@@ -26,10 +34,26 @@
  </tr>
  {% endfor %}
 
- </table>
+ </table><br>
+
+오늘 공부 추가하기 <br>
+
+<form action="/add/" method="post">
+{% csrf_token %}
+
+    title :<input type="text" name="title" id="title" value="" /><br>
+    date :<input type="date" format='yyyy-mm-dd' name="date" id="date" value="" /><br>
+    
+    {% for category in categories %}
+    <input type="checkbox" name="category" id="category" value="{{category}}" />
+    <label for="category">{{category}}</label>
+ 	{% endfor %}
+
+<input type="submit" value="add" />
+</form>
 
 
-<a href="/form/">오늘 공부 추가하기</a>
-
+<!-- <a href="/form/">오늘 공부 추가하기</a>
+ -->
 
 
