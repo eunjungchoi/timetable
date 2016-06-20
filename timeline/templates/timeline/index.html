@@ -7,18 +7,18 @@
  <tr>
  	<th>date</th>
  	<th>title</th>
- 	{% for category in categories %}
- 	<th>{{category.name}}</th>
+ 	{% for cat in categories %}
+ 	<th>{{cat.name}}</th>
  	{% endfor %} 
 
  </tr>
 {% for study in study_list %}
  <tr>
- 	<td>{{ study.date }}</td>
+ 	<td>{{ study.date|date:"Y-m-d" }}</td>
  	<td>{{ study.title }}</td>
-	{% for cat in categories %}	 
+	{% for cat in categories %}
 	<td>
-		{% if cat in study.category %}
+		{% if cat.name in study.cat %}
  		True
  		{% endif %}
 	</td>
