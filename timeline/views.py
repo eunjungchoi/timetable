@@ -19,7 +19,7 @@ def index(request):
 		'categories' : categories,
 		'user' : user
 	}
-	
+
 	return render(request, 'timeline/index.html', context)
 
 
@@ -61,4 +61,14 @@ def catadd(request):
 	c.save()
 
 	return redirect('/')
+
+def catdelete(request):
+	cat_id_list_to_del = request.POST.getlist('cat_name')
+	
+	for cat_id in cat_id_list_to_del:
+		each = Category.objects.filter(user=request.user).get(id=cat_id)
+		each.delete()
+
+	return redirect('/')
+
 

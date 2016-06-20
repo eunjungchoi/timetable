@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^add/$', views.add, name='add'),
     url(r'^catadd/$', views.catadd, name='catadd'),
     url(r'^delete/$', views.delete, name='delete'),
+    url(r'^catdelete/$', views.catdelete, name='catdelete'),
+
 
 ]
 
