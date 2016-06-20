@@ -18,9 +18,12 @@ from django.contrib import admin
 from timeline import views
 
 urlpatterns = [
+    # url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
     url(r'^form/$', views.form, name='form'),
-    url(r'^add/$', views.add, name='add')
+    url(r'^catform/$', views.catform, name='catform'),
+    url(r'^add/$', views.add, name='add'),
+    url(r'^catadd/$', views.catadd, name='catadd')
 ]
 

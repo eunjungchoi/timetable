@@ -1,0 +1,18 @@
+<html>
+<head>
+</head>
+<body>
+<h3>add categories </h3>
+	
+<form action="/catadd/" method="post">
+{% csrf_token %}
+
+    <li>new category :<input type="name" name="name" id="name" value="" /></li>
+
+<input type="submit" value="add" />
+</form>
+
+<a href="{% url 'index' %}">취소</a>
+
+</body>
+</html>
