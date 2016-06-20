@@ -1,15 +1,17 @@
 {{ user.username }} 님이 로그인하셨습니다. 
 
-<h3>열심히 공부하고 있습니다</h3>
+<h3>{{ header }}</h3>
 
 
-오늘 공부 추가하기 <br>
+{{ msg }} <br><br>
 
+
+{% if categories %}
 <form action="/add/" method="post">
 {% csrf_token %}
 
     title :<input type="text" name="title" id="title" value="" /><br>
-    date :<input type="date" format='yyyy-mm-dd' name="date" id="date" value="" /><br>
+    date :<input type="date" format="yyyy-mm-dd" name="date" id="date" value="" /><br>
     
     카테고리 : 
     {% for category in categories %}
@@ -56,6 +58,7 @@
  </table>
  <input type="submit" value="삭제" />
 </form>
+{% endif %}
  <br>
  <br>
 
