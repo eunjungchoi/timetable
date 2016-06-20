@@ -22,10 +22,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
     url(r'^add/$', views.add, name='add'),
+    url(r'^editform/(?P<study_id>[0-9]+)/$', views.editform, name='editform'),
+    url(r'^edit/$', views.edit, name='edit'),
     url(r'^catadd/$', views.catadd, name='catadd'),
     url(r'^delete/$', views.delete, name='delete'),
     url(r'^catdelete/$', views.catdelete, name='catdelete'),
 
-
 ]
-

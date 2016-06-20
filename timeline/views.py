@@ -8,7 +8,7 @@ from timeline.models import *
 
 @login_required
 def index(request):
-	study_list = Study.objects.filter(user=request.user).order_by('date')
+	study_list = Study.objects.filter(user=request.user).order_by('-date')
 	for study in study_list:
 		study.cat = [ each_cat.name for each_cat in study.category.all()]
 	categories = Category.objects.filter(user_id=request.user)
@@ -43,6 +43,23 @@ def add(request):
 	return redirect('/')
 
 
+
+def edit(request):
+	study_id = request.POST['study_id']
+	s = Study.objects.get(pk=study_id)
+	s.title = request.POST['title']
+	s.date = request.POST['date']
+#  이부분을 해야 됨. -------------------------------------------수정을 하긴 했는데, 원래 카테고리가 안 뜸-----
+	s.save()
+
+	cat_list = request.POST.getlist('category')
+
+	for cat in cat_list:
+		each_cat = Category.objects.filter(user=request.user).get(name=cat)
+		s.category.add(each_cat)
+	return redirect('/')
+
+
 def delete(request):
 	s_list = request.POST.getlist('item')
 	
@@ -71,4 +88,13 @@ def catdelete(request):
 
 	return redirect('/')
 
+
+def editform(request, study_id):
+	categories = Category.objects.filter(user=request.user)
+	study = Study.objects.filter(user=request.user).get(pk=study_id)
+	context = {
+		'study' : study,
+		'categories': categories
+	}
+	return render(request, 'timeline/editform.html', context)
 

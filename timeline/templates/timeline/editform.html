@@ -1,0 +1,17 @@
+수정하기 <br>
+
+<form action="/edit/" method="post">
+{% csrf_token %}
+	<input type="hidden" name="study_id" value="{{study.id}}" />
+    title :<input type="text" name="title" id="title" value="{{study.title}}" /><br>
+    date :<input type="date" format='yyyy-mm-dd' name="date" id="date" value="{{ study.date|date:"Y-m-d" }}" /><br>
+    
+    카테고리 : 
+    {% for category in categories %}
+    <input type="checkbox" name="category" id="category" value="{{category}}" />
+    <label for="category">{{category}}</label>
+ 	{% endfor %}
+<br><input type="submit" value="업데이트" />
+</form>
+
+<a href="/">취소</a>

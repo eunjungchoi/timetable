@@ -3,50 +3,6 @@
 <h3>열심히 공부하고 있습니다</h3>
 
 
-<form action="/catadd/" method="post">
-{% csrf_token %}
- 카테고리 추가하기 :<input type="name" name="name" id="name" value="" /><input type="submit" value="add" />
-</form>
-
-
-<form action="/catdelete/" method="post">
-{% csrf_token %}
-<table>
- <tr>
- 	<th>//</th>
- 	<th>date</th>
- 	<th>title</th>
- 	{% for cat in categories %}
- 	<th><input type="checkbox" name="cat_name" value="{{ cat.id }}" />{{cat.name}}</th>
- 	{% endfor %} 
- <input type="submit" value="카테고리 삭제" />
- </tr>
- </form>
-
- <form action="/delete/" method="post">
-{% csrf_token %}
-{% for study in study_list %}
- <tr>
- 	<td><input type="checkbox" name="item" value="{{ study.id }}" /></td>
- 	<td>{{ study.date|date:"Y-m-d" }}</td>
- 	<td>{{ study.title }}</td>
-	{% for cat in categories %}
-	<td>
-		{% if cat.name in study.cat %}
- 		True
- 		{% endif %}
-	</td>
-	{% endfor %}
- </tr>
- {% endfor %}
-
- </table>
- <input type="submit" value="삭제" />
-</form>
- 
-
-<br>
-<br>
 오늘 공부 추가하기 <br>
 
 <form action="/add/" method="post">
@@ -60,7 +16,50 @@
     <input type="checkbox" name="category" id="category" value="{{category}}" />
     <label for="category">{{category}}</label>
  	{% endfor %}
-
-<input type="submit" value="add" />
+<br><input type="submit" value="등록" />
 </form>
 
+<br><br>
+
+
+<form action="/catdelete/" method="post">
+{% csrf_token %}
+<table>
+ <tr>
+ 	<th></th>
+ 	<th>date</th>
+ 	<th>title</th>
+ 	{% for cat in categories %}
+ 	<th><input type="checkbox" name="cat_name" value="{{ cat.id }}" />{{cat.name}}</th>
+ 	{% endfor %} 
+ 	<th><input type="submit" value="카테고리 선택삭제" /></th>
+ </tr>
+ </form>
+
+<form action="/delete/" method="post">
+{% csrf_token %}
+{% for study in study_list %}
+ <tr>
+ 	<td><input type="checkbox" name="item" value="{{ study.id }}" /></td>
+ 	<td>{{ study.date|date:"Y-m-d" }}</td>
+ 	<td><a href="/editform/{{study.id}}">{{ study.title }}</a></td>
+	{% for cat in categories %}
+	<td>
+		{% if cat.name in study.cat %}
+ 		True
+ 		{% endif %}
+	</td>
+	{% endfor %}
+ </tr>
+ {% endfor %}
+
+ </table>
+ <input type="submit" value="삭제" />
+</form>
+ <br>
+ <br>
+
+ <form action="/catadd/" method="post">
+	{% csrf_token %}
+	새 카테고리 : <input type="name" name="name" id="name" value="" placeholder="기타" /><input type="submit" value="추가" />
+	</form>
