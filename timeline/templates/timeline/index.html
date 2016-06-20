@@ -10,9 +10,12 @@
 
 <!-- <a href="/catform/">카테고리 추가하기</a>
  -->
+<form action="/delete/" method="post">
+{% csrf_token %}
 
 <table>
  <tr>
+ 	<th>//</th>
  	<th>date</th>
  	<th>title</th>
  	{% for cat in categories %}
@@ -22,6 +25,7 @@
  </tr>
 {% for study in study_list %}
  <tr>
+ 	<td><input type="checkbox" name="item" value="{{ study.id }}"></td>
  	<td>{{ study.date|date:"Y-m-d" }}</td>
  	<td>{{ study.title }}</td>
 	{% for cat in categories %}
@@ -34,7 +38,15 @@
  </tr>
  {% endfor %}
 
- </table><br>
+ </table>
+ <input type="submit" value="삭제" />
+</form>
+ 
+
+
+
+
+ <br>
 
 오늘 공부 추가하기 <br>
 

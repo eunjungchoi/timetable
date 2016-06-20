@@ -19,6 +19,7 @@ def index(request):
 		'categories' : categories,
 		'user' : user
 	}
+	
 	return render(request, 'timeline/index.html', context)
 
 
@@ -38,6 +39,16 @@ def add(request):
 	for cat in cat_list:
 		each_cat = Category.objects.filter(user=request.user).get(name=cat)
 		s.category.add(each_cat)
+
+	return redirect('/')
+
+
+def delete(request):
+	s_list = request.POST.getlist('item')
+	
+	for study_id in s_list:
+		each = Study.objects.filter(user=request.user).get(id=study_id)
+		each.delete()
 
 	return redirect('/')
 
