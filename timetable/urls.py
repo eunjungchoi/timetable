@@ -13,12 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from timeline import views
 
+
 urlpatterns = [
-    # url('', include('social.apps.django_app.urls', namespace='social')),
+    url(r'', include('social.apps.django_app.urls', namespace='social')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
     url(r'^add/$', views.add, name='add'),
@@ -27,5 +28,4 @@ urlpatterns = [
     url(r'^catadd/$', views.catadd, name='catadd'),
     url(r'^delete/$', views.delete, name='delete'),
     url(r'^catdelete/$', views.catdelete, name='catdelete'),
-
 ]

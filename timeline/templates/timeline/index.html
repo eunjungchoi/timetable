@@ -1,3 +1,28 @@
+<html>
+
+<head>
+</head>
+
+<body>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1725800877660829',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
 {{ user.username }} 님이 로그인하셨습니다. 
 
 <h3>{{ header }}</h3>
@@ -66,3 +91,7 @@
 	{% csrf_token %}
 	새 카테고리 : <input type="name" name="name" id="name" value="" placeholder="기타" /><input type="submit" value="추가" />
 	</form>
+
+
+</body>
+</html>

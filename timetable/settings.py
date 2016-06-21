@@ -70,6 +70,18 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)
+
 WSGI_APPLICATION = 'timetable.wsgi.application'
 
 
@@ -104,9 +116,26 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 AUTHENTICATION_BACKENDS = (
-    # 'social.backends.facebook.OAuth2',
+    'social.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    # 'social.backends.google.GoogleOAuth2',
+    # 'social.backends.twitter.TwitterOAuth',
 )
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+
+# Facebook
+SOCIAL_AUTH_FACEBOOK_KEY = '1725800877660829'
+SOCIAL_AUTH_FACEBOOK_SECRET = '876125d73c1ac3cb2919bdfd63a86dde'
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+ 
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'fields': 'id, name, email, age_range'
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
