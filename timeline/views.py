@@ -3,7 +3,13 @@ from django.http import HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from timeline.models import *
+
+def intro(request):
+	if request.user.is_authenticated():
+		return redirect('/index/')
+	return render(request, 'timeline/intro.html')
 
 
 @login_required
@@ -30,8 +36,12 @@ def index(request):
 
 	return render(request, 'timeline/index.html', context)
 
+@login_required
+def log_out(request):
+	logout(request)
+	return redirect('/')
 
-
+@login_required
 def add(request):
 	categories = Category.objects.filter(user=request.user)
 
@@ -48,10 +58,10 @@ def add(request):
 		each_cat = Category.objects.filter(user=request.user).get(name=cat)
 		s.category.add(each_cat)
 
-	return redirect('/')
+	return redirect('/index/')
 
 
-
+@login_required
 def edit(request):
 	study_id = request.POST['study_id']
 	s = Study.objects.get(pk=study_id)
@@ -67,7 +77,7 @@ def edit(request):
 		s.category.add(each_cat)
 	return redirect('/')
 
-
+@login_required
 def delete(request):
 	s_list = request.POST.getlist('item')
 	
@@ -75,9 +85,10 @@ def delete(request):
 		each = Study.objects.filter(user=request.user).get(id=study_id)
 		each.delete()
 
-	return redirect('/')
+	return redirect('/index/')
 
 
+@login_required
 def catadd(request):
 	c = Category(
 	user=request.user,
@@ -85,9 +96,10 @@ def catadd(request):
 	)
 	c.save()
 
-	return redirect('/')
+	return redirect('/index/')
 
 
+@login_required
 def catdelete(request):
 	cat_id_list_to_del = request.POST.getlist('cat_name')
 	
@@ -95,9 +107,10 @@ def catdelete(request):
 		each = Category.objects.filter(user=request.user).get(id=cat_id)
 		each.delete()
 
-	return redirect('/')
+	return redirect('/index/')
 
 
+@login_required
 def editform(request, study_id):
 	categories = Category.objects.filter(user=request.user)
 	study = Study.objects.filter(user=request.user).get(pk=study_id)
