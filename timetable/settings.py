@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$=72@uny-khq=lg+$#arctrsjmqmnpbi_0&b0(s(4xzitlgow9'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -125,8 +125,8 @@ SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 # Facebook
 
-SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('FACEBOOK_KEY', '1725800877660829')
-SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('FACEBOOK_SECRET', '876125d73c1ac3cb2919bdfd63a86dde')
+SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('FACEBOOK_KEY')
+SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('FACEBOOK_SECRET')
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
  
