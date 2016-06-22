@@ -3,8 +3,9 @@ from django.contrib.auth.models import User
 
 class Study(models.Model):
 	user = models.ForeignKey(User)
-	title = models.CharField(max_length=200)
+	title = models.CharField(max_length=100)
 	date = models.DateField()
+	contents = models.TextField(max_length=500)
 	category = models.ManyToManyField('Category') 
 
 	def __str__(self):

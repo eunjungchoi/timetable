@@ -24,10 +24,15 @@ urlpatterns = [
     url(r'^$', views.intro, name='intro'),
     url(r'^logout/$', views.log_out, name='log_out'),
     url(r'^index/$', views.index, name='index'),
+    url(r'^(?P<study_id>[0-9]+)$', views.detail, name='detail'),
     url(r'^add/$', views.add, name='add'),
     url(r'^editform/(?P<study_id>[0-9]+)/$', views.editform, name='editform'),
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^catadd/$', views.catadd, name='catadd'),
     url(r'^delete/$', views.delete, name='delete'),
+    url(r'^delete-each/(?P<study_id>[0-9]+)$', views.delete_each, name='delete_each'), 
     url(r'^catdelete/$', views.catdelete, name='catdelete'),
 ]
+
+
+# <a href="/edit/{{study_id}}/">수정</a><br>

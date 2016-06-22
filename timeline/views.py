@@ -33,13 +33,30 @@ def index(request):
 		'header' : header,
 		'msg' : msg
 	}
-
 	return render(request, 'timeline/index.html', context)
+
+
+@login_required
+def detail(request, study_id):
+	if not request.user.is_authenticated():
+		return render(request, 'timeline/intro.html')
+	
+	categories = Category.objects.filter(user=request.user)
+	study = Study.objects.filter(user=request.user).get(pk=study_id)
+	study.cat = [ each_cat.name for each_cat in study.category.all()]
+	
+	context = {
+		'study' : study,
+		'categories': categories
+	}
+	return render(request, 'timeline/detail.html', context)
+
 
 @login_required
 def log_out(request):
 	logout(request)
 	return redirect('/')
+
 
 @login_required
 def add(request):
@@ -48,7 +65,8 @@ def add(request):
 	s = Study(
 		user=request.user,
 		title=request.POST['title'],
-		date=request.POST['date']
+		date=request.POST['date'],
+		contents=request.POST['contents']
 		)
 	s.save()
 
@@ -84,6 +102,13 @@ def delete(request):
 	for study_id in s_list:
 		each = Study.objects.filter(user=request.user).get(id=study_id)
 		each.delete()
+
+	return redirect('/index/')
+
+
+def delete_each(request, study_id):
+	s = Study.objects.filter(user=request.user).get(id=study_id)
+	s.delete()
 
 	return redirect('/index/')
 

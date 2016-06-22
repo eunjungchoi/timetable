@@ -19,7 +19,8 @@
 
     title :<input type="text" name="title" id="title" value="" /><br>
     date :<input type="date" format="yyyy-mm-dd" name="date" id="date" value="" /><br>
-    
+    details :<textarea name="contents" id="contents" value=""></textarea><br>
+
     카테고리 : 
     {% for category in categories %}
     <input type="checkbox" name="category" id="category" value="{{category}}" />
@@ -51,7 +52,7 @@
  <tr>
  	<td><input type="checkbox" name="item" value="{{ study.id }}" /></td>
  	<td>{{ study.date|date:"Y-m-d" }}</td>
- 	<td><a href="/editform/{{study.id}}">{{ study.title }}</a></td>
+ 	<td><a href="/{{study.id}}">{{ study.title }}</a></td>
 	{% for cat in categories %}
 	<td>
 		{% if cat.name in study.cat %}

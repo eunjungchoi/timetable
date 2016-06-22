@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<html>
+
+<head>
+</head>
+
+<body>
+
+<h1>{{ study.title }}</h1>
+<ul>
+	<li>날짜: {{ study.date|date:"Y-m-d" }}</li>
+	<li>{{ study.contents }}</li>
+	<li>
+	카테고리 :<br>
+	{% for each in study.cat %}
+	<span>- {{ each }}<br></span>
+ 	{% endfor %}
+ 	</li>
+</ul>
+
+
+<a href="/editform/{{study.id}}">수정</a><br>
+<a href="/delete-each/{{study.id}}">삭제</a><br>
+<a href="/index/">목록으로</a>
+
+</body>
+</html>
