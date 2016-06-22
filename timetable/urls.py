@@ -33,6 +33,3 @@ urlpatterns = [
     url(r'^delete-each/(?P<study_id>[0-9]+)$', views.delete_each, name='delete_each'), 
     url(r'^catdelete/$', views.catdelete, name='catdelete'),
 ]
-
-
-# <a href="/edit/{{study_id}}/">수정</a><br>

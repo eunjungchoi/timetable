@@ -20,7 +20,7 @@ def index(request):
 	header = "열심히 공부하고 있습니다"
 	msg = "오늘 공부 추가하기"
 	
-	categories = Category.objects.filter(user_id=request.user)
+	categories = Category.objects.filter(user=request.user)
 	if len(categories) == 0:
 		header = "열심히 공부해볼까요?"
 		msg = "달력이 비어있네요. 먼저 요즘 어떤 공부를 하고 있는지 카테고리들을 먼저 추가하고, 날짜별 공부일정을 등록해보세요 "
@@ -105,7 +105,7 @@ def delete(request):
 
 	return redirect('/index/')
 
-
+@login_required
 def delete_each(request, study_id):
 	s = Study.objects.filter(user=request.user).get(id=study_id)
 	s.delete()
