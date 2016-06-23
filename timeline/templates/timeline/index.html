@@ -7,13 +7,19 @@
 
 {{ user.username }} 님이 로그인하셨습니다. <br>
 <a href="/logout/">로그아웃<br></a>
-<h3>{{ header }}</h3>
 
-
-{{ msg }} <br><br>
+	
+{% if len(categories) == 0 %}
+<h3>열심히 공부해볼까요?</h3>
+달력이 비어있네요. 먼저 요즘 어떤 공부를 하고 있는지 카테고리들을 먼저 추가하고, 날짜별 공부일정을 등록해보세요. <br><br>
+{% endif %} 
 
 
 {% if categories %}
+<h3>열심히 공부하고 있습니다</h3>
+오늘 공부 추가하기 <br><br>
+
+
 <form action="/add/" method="post">
 {% csrf_token %}
 

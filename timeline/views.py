@@ -17,13 +17,13 @@ def index(request):
 	study_list = Study.objects.filter(user=request.user).order_by('-date')
 	for study in study_list:
 		study.cat = [ each_cat.name for each_cat in study.category.all()]
-	header = "열심히 공부하고 있습니다"
-	msg = "오늘 공부 추가하기"
+	# header = "열심히 공부하고 있습니다"
+	# msg = "오늘 공부 추가하기"
 	
 	categories = Category.objects.filter(user=request.user)
-	if len(categories) == 0:
-		header = "열심히 공부해볼까요?"
-		msg = "달력이 비어있네요. 먼저 요즘 어떤 공부를 하고 있는지 카테고리들을 먼저 추가하고, 날짜별 공부일정을 등록해보세요 "
+	# if len(categories) == 0:
+	# 	header = "열심히 공부해볼까요?"
+	# 	msg = "달력이 비어있네요. 먼저 요즘 어떤 공부를 하고 있는지 카테고리들을 먼저 추가하고, 날짜별 공부일정을 등록해보세요 "
 	user = request.user
 
 	context = {
