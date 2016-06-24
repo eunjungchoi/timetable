@@ -9,15 +9,12 @@ from timeline.models import *
 
 def log_in(request):
 	if request.user.is_authenticated():
-		return redirect('/')
+		return redirect(reverse('index'))
 	return render(request, 'timeline/login.html')
 
 
 @login_required
 def index(request):
-	if not request.user.is_authenticated():
-		return redirect('/login/')
-
 	study_list = Study.objects.filter(user=request.user).order_by('-date')
 	for study in study_list:
 		study.cat = [ each_cat.name for each_cat in study.category.all()]
@@ -49,7 +46,7 @@ def detail(request, study_id):
 @login_required
 def log_out(request):
 	logout(request)
-	return redirect('/login/')
+	return redirect(reverse('log_in'))
 
 
 @login_required
@@ -70,7 +67,7 @@ def add(request):
 		each_cat = Category.objects.filter(user=request.user).get(name=cat)
 		s.category.add(each_cat)
 
-	return redirect('/')
+	return redirect(reverse('index'))
 
 
 @login_required
@@ -87,7 +84,7 @@ def edit(request):
 	for cat in cat_list:
 		each_cat = Category.objects.filter(user=request.user).get(name=cat)
 		s.category.add(each_cat)
-	return redirect('/')
+	return redirect(reverse('index'))
 
 @login_required
 def delete(request):
@@ -97,7 +94,7 @@ def delete(request):
 		each = Study.objects.filter(user=request.user).get(id=study_id)
 		each.delete()
 
-	return redirect('/')
+	return redirect(reverse('index'))
 
 @login_required
 def delete_each(request, study_id):
@@ -127,7 +124,6 @@ def catdelete(request):
 		each.delete()
 
 	return redirect(reverse('index'))
-	# return redirect('/index/')
 
 
 @login_required
