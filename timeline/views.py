@@ -130,7 +130,8 @@ def catdelete(request):
 def editform(request, study_id):
 	categories = Category.objects.filter(user=request.user)
 	study = Study.objects.filter(user=request.user).get(pk=study_id)
-	study.cat = [ each_cat.name for each_cat in study.category.all()]
+	study.cat = study.get_category_names()
+	# [ each_cat.name for each_cat in study.category.all()]
 
 	context = {
 		'study' : study,

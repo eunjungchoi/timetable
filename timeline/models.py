@@ -11,6 +11,13 @@ class Study(models.Model):
 	def __str__(self):
 		return self.title
 
+	def get_category_names(self):
+		return [ each_cat.name for each_cat in self.category.all()]
+
+# for test:
+	def has_category(self, category_id):
+		return False
+
 
 class Category(models.Model):
 	user = models.ForeignKey(User)
