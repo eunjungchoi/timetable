@@ -1,84 +1,164 @@
+{% load staticfiles %}
+<!DOCTYPE html>
 <html>
-
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Timetable</title>
+
+	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+	<link rel="stylesheet" href="{% static "css/bootstrap-theme.min.css" %}">
+<!-- 	<link rel="stylesheet" href="{% static "js/bootstrap.min.js" %}">
+ -->	<!-- <style>
+		.row {width:1200px;margin:auto auto 40px auto;}
+
+		.form label {display:inline-block;width:80px;}
+		.form label .category {display:inline-block;width:40px;}
+	</style> -->
 </head>
+<body style="margin-bottom:60px">
+<nav class="navbar navbar-default">
+	<div class="container">
+  		<div class="navbar-header">
+    		<a class="navbar-brand" href="/">Timetable</a>
+		</div>
+		<p class="navbar-text navbar-right">{{ user.username }} 님이 로그인하셨습니다. <a href="{% url 'log_out' %}" class="navbar-link">로그아웃</a></p>
+	</div>
+</nav>
 
-<body>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+		{% if not categories %}
+			<h3>열심히 공부해볼까요?</h3>
+			<p>달력이 비어있네요. 먼저 요즘 어떤 공부를 하고 있는지 카테고리들을 먼저 추가하고, 날짜별 공부일정을 등록해보세요.</p>
+		{% else %}
+			<h3>열심히 공부하고 있습니다</h3>
+		{% endif %}
+		</div>
+	</div>
 
-{{ user.username }} 님이 로그인하셨습니다. <br>
-<a href="/logout/">로그아웃<br></a>
+	{% if categories %}
+	<div class="row">
+		<div class="col-lg-8">
+			<h4>오늘 공부 추가하기</h4>
+			<form class="form-horizontal" action="{% url 'add' %}" method="post">
+				{% csrf_token %}
+				<div class="form-group">
+					<label for="title" class="col-lg-2 control-label">Title</label>
+					<div class="col-lg-10">
+						<input type="text" class="form-control" name="title" id="title" placeholder="오늘 뭘 하셨나요?">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="date" class="col-lg-2 control-label">Date</label>
+					<div class="col-lg-10">
+						<input type="date" class="form-control" format="yyyy-mm-dd" name="date" id="date">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="contents" class="col-lg-2 control-label">Details</label>
+					<div class="col-lg-10">
+						<textarea class="form-control" rows="3" name="contents" id="contents"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-lg-2 control-label">Categories</label>
+					<div class="col-lg-10">
+					{% for category in categories %}
 
-	
-{% if not categories %}
-<h3>열심히 공부해볼까요?</h3>
-달력이 비어있네요. 먼저 요즘 어떤 공부를 하고 있는지 카테고리들을 먼저 추가하고, 날짜별 공부일정을 등록해보세요. <br><br>
+						<label class="checkbox-inline">
+							<input type="checkbox" name="category" id="category-{{ category.id }}" value="{{category}}"> {{ category }}
+						</label>
+					{% endfor %}
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-10">
+						<button type="submit" class="btn btn-primary">등록</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 
-{% else %}
-<h3>열심히 공부하고 있습니다</h3>
-오늘 공부 추가하기 <br><br>
-
-
-<form action="/add/" method="post">
+	<div class="row">
+		<div class="col-lg-12">
+ 			<form action="/delete/" method="post">
+			{% csrf_token %}
+				<div class="table-responsive">
+				<table class="table">
+					<tr>
+						<th></th>
+						<th>date</th>
+						<th>title</th>
+						{% for cat in categories %}
+						<th>{{cat.name}}</th>
+						{% endfor %} 
+					</tr>
+				
+					{% for study in study_list %}
+					<tr>
+						<td><input type="checkbox" name="item" value="{{ study.id }}" /></td>
+						<td>{{ study.date|date:"Y-m-d" }}</td>
+						<td><a href="/{{study.id}}">{{ study.title }}</a></td>
+						{% for cat in categories %}
+						<td>
+						{% if cat.name in study.cat %}
+						O
+						{% endif %}
+						</td>
+						{% endfor %}
+					</tr>
+					{% endfor %}
+				</table>
+				</div>
+				<button type="submit" class="btn btn-danger">삭제</button>
+			</form>
+		</div>
+	</div>
+	{% endif %}
+</div>
+<div class="container">
+	<div class="row">
+		<hr>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<form class="form-inline" action="/catadd/" method="post">
+			{% csrf_token %}
+				<div class="form-group">
+					<label for="name">새 카테고리</label>
+					<input type="text" class="form-control" name="name" id="name" placeholder="기타">
+				</div>
+  				<button type="submit" class="btn btn-default">추가</button>
+			</form>
+		</div>
+	</div>
+	<div class="row" style="margin-top:10px">
+		<div class="col-lg-12">
+			<form class="form-inline" action="/catdelete/" method="post">
+			{% csrf_token %}
+				<div class="form-group">
+					{% for cat in categories %}
+					<label class="checkbox-inline">
+						<input type="checkbox" name="cat_name" value="{{ cat.id }}"> {{ cat.name }}
+					</label>
+					{% endfor %}
+				</div>
+				<button type="submit" class="btn btn-default">카테고리 삭제</button>
+			</form>
+		</div>
+	</div>
+<!-- <form action="/catdelete/" method="post">
 {% csrf_token %}
+<input type="checkbox" name="cat_name" value="{{ cat.id }}" />
+<th><input type="submit" value="카테고리 선택삭제" /></th>
+--> 
 
-    title :<input type="text" name="title" id="title" value="" /><br>
-    date :<input type="date" format="yyyy-mm-dd" name="date" id="date" value="" /><br>
-    details :<textarea name="contents" id="contents"></textarea><br>
-
-    카테고리 : 
-    {% for category in categories %}
-    <input type="checkbox" name="category" id="category" value="{{category}}" />
-    <label for="category">{{category}}</label>
- 	{% endfor %}
-<br><input type="submit" value="등록" />
-</form>
-
-<br><br>
-
-
-<form action="/catdelete/" method="post">
-{% csrf_token %}
-<table>
- <tr>
- 	<th></th>
- 	<th>date</th>
- 	<th>title</th>
- 	{% for cat in categories %}
- 	<th><input type="checkbox" name="cat_name" value="{{ cat.id }}" />{{cat.name}}</th>
- 	{% endfor %} 
- 	<th><input type="submit" value="카테고리 선택삭제" /></th>
- </tr>
- </form>
-
-<form action="/delete/" method="post">
-{% csrf_token %}
-{% for study in study_list %}
- <tr>
- 	<td><input type="checkbox" name="item" value="{{ study.id }}" /></td>
- 	<td>{{ study.date|date:"Y-m-d" }}</td>
- 	<td><a href="/{{study.id}}">{{ study.title }}</a></td>
-	{% for cat in categories %}
-	<td>
-		{% if cat.name in study.cat %}
- 		O
- 		{% endif %}
-	</td>
-	{% endfor %}
- </tr>
- {% endfor %}
-
- </table>
- <input type="submit" value="삭제" />
-</form>
-{% endif %}
- <br>
- <br>
-
- <form action="/catadd/" method="post">
-	{% csrf_token %}
-	새 카테고리 : <input type="name" name="name" id="name" value="" placeholder="기타" /><input type="submit" value="추가" />
-	</form>
-
-
+</div>
 </body>
 </html>
