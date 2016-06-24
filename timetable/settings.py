@@ -27,6 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG')
 
 
+LOGIN_URL = '/login/'
 ALLOWED_HOSTS = []
 
 

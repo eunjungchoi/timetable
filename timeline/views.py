@@ -4,16 +4,20 @@ from django.template import loader
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.core.urlresolvers import reverse
 from timeline.models import *
 
-def intro(request):
+def log_in(request):
 	if request.user.is_authenticated():
-		return redirect('/index/')
-	return render(request, 'timeline/intro.html')
+		return redirect('/')
+	return render(request, 'timeline/login.html')
 
 
 @login_required
 def index(request):
+	if not request.user.is_authenticated():
+		return redirect('/login/')
+
 	study_list = Study.objects.filter(user=request.user).order_by('-date')
 	for study in study_list:
 		study.cat = [ each_cat.name for each_cat in study.category.all()]
@@ -31,9 +35,6 @@ def index(request):
 
 @login_required
 def detail(request, study_id):
-	if not request.user.is_authenticated():
-		return render(request, 'timeline/intro.html')
-	
 	categories = Category.objects.filter(user=request.user)
 	study = Study.objects.filter(user=request.user).get(pk=study_id)
 	study.cat = [ each_cat.name for each_cat in study.category.all()]
@@ -48,7 +49,7 @@ def detail(request, study_id):
 @login_required
 def log_out(request):
 	logout(request)
-	return redirect('/')
+	return redirect('/login/')
 
 
 @login_required
@@ -69,7 +70,7 @@ def add(request):
 		each_cat = Category.objects.filter(user=request.user).get(name=cat)
 		s.category.add(each_cat)
 
-	return redirect('/index/')
+	return redirect('/')
 
 
 @login_required
@@ -96,14 +97,14 @@ def delete(request):
 		each = Study.objects.filter(user=request.user).get(id=study_id)
 		each.delete()
 
-	return redirect('/index/')
+	return redirect('/')
 
 @login_required
 def delete_each(request, study_id):
 	s = Study.objects.filter(user=request.user).get(id=study_id)
 	s.delete()
 
-	return redirect('/index/')
+	return redirect(reverse('index'))
 
 
 @login_required
@@ -114,7 +115,7 @@ def catadd(request):
 	)
 	c.save()
 
-	return redirect('/index/')
+	return redirect(reverse('index'))
 
 
 @login_required
@@ -125,7 +126,8 @@ def catdelete(request):
 		each = Category.objects.filter(user=request.user).get(id=cat_id)
 		each.delete()
 
-	return redirect('/index/')
+	return redirect(reverse('index'))
+	# return redirect('/index/')
 
 
 @login_required
