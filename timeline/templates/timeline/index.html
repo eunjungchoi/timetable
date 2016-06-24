@@ -69,14 +69,14 @@
 					{% for category in categories %}
 
 						<label class="checkbox-inline">
-							<input type="checkbox" name="category" id="category-{{ category.id }}" value="{{category}}"> {{ category }}
+							<input type="checkbox" name="category" id="category-{{ category.id }}" value="{{category.name}}"> {{ category }}
 						</label>
 					{% endfor %}
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-lg-offset-2 col-lg-10">
-						<button type="submit" class="btn btn-primary">등록</button>
+						<button type="submit" class="btn btn-default">등록</button>
 					</div>
 				</div>
 			</form>
@@ -114,7 +114,7 @@
 					{% endfor %}
 				</table>
 				</div>
-				<button type="submit" class="btn btn-danger">삭제</button>
+				<button type="submit" class="btn btn-default">삭제</button>
 			</form>
 		</div>
 	</div>

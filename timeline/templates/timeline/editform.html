@@ -5,12 +5,12 @@
 	<input type="hidden" name="study_id" value="{{study.id}}" />
     title :<input type="text" name="title" id="title" value="{{study.title}}" /><br>
     date :<input type="date" format='yyyy-mm-dd' name="date" id="date" value="{{ study.date|date:'Y-m-d' }}" /><br>
-    <textarea name="contents" id="contents">{{ study.contents }}></textarea><br>
+    <textarea name="contents" id="contents">{{ study.contents }}</textarea><br>
 
     카테고리 : 
     {% for category in categories %}
-    <input type="checkbox" name="category" id="category" value="{{category}}" />
-    <label for="category">{{category}}</label>
+    <input type="checkbox" name="category" id="category" value="{{category.name}}" {% if category.name in study.cat %} checked {% endif %}>
+    <label for="category">{{category.name}}</label>
  	{% endfor %}
 <br><input type="submit" value="업데이트" />
 </form>

@@ -19,7 +19,7 @@
 </ul>
 
 
-<a href="/editform/{{study.id}}">수정</a><br>
+<a href="{% url 'editform' study.id %}">수정</a><br>
 <a href="/delete-each/{{study.id}}">삭제</a><br>
 <a href="/index/">목록으로</a>
 
