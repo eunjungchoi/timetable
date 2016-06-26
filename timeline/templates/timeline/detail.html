@@ -29,11 +29,9 @@
 			</div>
 		</div>
 		<div class="col-lg-10" style="margin-top:30px">
-
 			<button type="button" class="btn btn-default"><a href="{% url 'editform' study.id %}">수정</a> </button>
-			<button type="button" class="btn btn-default"><a href="/delete-each/{{study.id}}">삭제</a></button>
-			<button type="button" class="btn btn-default"><a href="/">목록으로</a></button>
-
+			<button type="button" class="btn btn-default"><a href="{% url 'delete_each' study.id %}">삭제</a></button>
+			<button type="button" class="btn btn-default"><a href="{% url 'index' %}">목록으로</a></button>
 		</div>
 	</div>
 </div>
