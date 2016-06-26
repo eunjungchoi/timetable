@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	{% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+	<link rel="stylesheet" href="{% static "css/bootstrap-theme.min.css" %}">
+	<title>
+		{% block title %}
+			Timetable
+		{% endblock %}
+	</title>
+</head>
+
+<body style="margin-bottom:60px">
+
+	<nav id="nav" class="navbar navbar-default">
+		{% block sidebar %}
+		<div class="container">
+	  		<div class="navbar-header">
+	    		<a class="navbar-brand" href="/">Timetable</a>
+			</div>
+			<p class="navbar-text navbar-right">{{ user.username }} 님이 로그인하셨습니다. <a href="{% url 'log_out' %}" class="navbar-link">로그아웃</a></p>
+		</div>
+		{% endblock %}
+	</nav>
+
+	<div id="content">
+		{% block content %}
+		{% endblock %}
+	</div>
+
+	<div id="footer">
+		{% block footer %}
+		©2016 snailzzang
+		{% endblock %}
+	</div>
+<script>
+</script>	
+</body>
+</html>
