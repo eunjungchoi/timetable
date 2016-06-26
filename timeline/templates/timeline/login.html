@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "timeline/base.html" %}
 
 {% block sidebar %}
 		<div class="container">
@@ -9,9 +9,15 @@
 {% endblock %}
 
 {% block content %}	
-	<h1>안녕하세요. 타임테이블입니다. </h1>
-	<p>매일매일 공부한 것을 날짜별로 기록해보세요. </p>
-	<p>페이스북으로 로그인할 수 있습니다. </p>
-	<a href="{% url 'social:begin' 'facebook' %}?next={% url 'index' %}">Login with Facebook</a>
-	<p>페이스북 로그인은 인증용으로, 사용자의 페이스북 담벼락에 어떤 것도 포스팅하지 않습니다.</p> 
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 style="margin-bottom:30px">안녕하세요. 타임테이블입니다. </h1>
+			<p>매일매일 공부한 것을 날짜별로 기록해보세요. </p>			
+ 			<p><button type="button" class="btn btn-primary"><a style="color:#ffffff" href="{% url 'social:begin' 'facebook' %}?next={% url 'index' %}">Facebook으로 로그인하기</a></button></p>			
+ 			<p>페이스북 로그인은 인증용으로, 사용자의 페이스북 담벼락에 어떤 것도 포스팅하지 않습니다.</p> 
+		</div>
+	</div>
+</div>
+
 {% endblock content %}

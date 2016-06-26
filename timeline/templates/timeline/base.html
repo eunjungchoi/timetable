@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="{% static "css/bootstrap-theme.min.css" %}">
 	<title>
 		{% block title %}
-			Timetable
+		Timetable
 		{% endblock %}
 	</title>
 </head>
@@ -33,11 +33,18 @@
 		{% endblock %}
 	</div>
 
-	<div id="footer">
+	<div id="footer" style="margin-top:60px">
 		{% block footer %}
-		©2016 snailzzang
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+				©2016 snailzzang
+				</div>
+			</div>
+		</div>
 		{% endblock %}
 	</div>
+
 <script>
 </script>	
 </body>
