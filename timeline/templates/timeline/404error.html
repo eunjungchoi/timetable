@@ -1,0 +1,17 @@
+{% extends "timeline/base.html" %}
+
+{% block sidebar %}
+		<div class="container">
+	  		<div class="navbar-header">
+	    		<a class="navbar-brand" href="/">Timetable</a>
+			</div>
+		</div>
+{% endblock %}
+
+{% block content %}	
+<div align="center">
+	<h1>Oops!</h1>
+	<h3>찾으시는 페이지가 없습니다.</h3> 
+	<button type="button" class="btn btn-default"><a style="color:#000000" href="{% url 'index' %}">home으로 돌아가기</a></button>
+</div>
+{% endblock content %}
