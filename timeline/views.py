@@ -60,7 +60,7 @@ def search(request):
 	if 'q' in request.GET and request.GET['q']:
 		q = request.GET['q']
 
-	search_list = study_list.filter(Q(contents__contains=q) | Q(title__contains=q))
+	search_list = study_list.filter(Q(contents__icontains=q) | Q(title__icontains=q))
 	for each in search_list:
 		each.cat = [ each_cat.name for each_cat in each.category.all()]
 
