@@ -55,19 +55,14 @@ def detail(request, study_id):
 @login_required
 def search(request):
 	study_list = Study.objects.filter(user=request.user).order_by('-date')
-	categories = Category.objects.filter(user=request.user)
 	q = request.GET.get("q", None)
-
 	if q:
 		search_list = study_list.filter(Q(contents__icontains=q) | Q(title__icontains=q))
-		for each in search_list:
-			each.cat = [ each_cat.name for each_cat in each.category.all()]
 	else:
 		search_list = []
 
 	context = {
 		'search_list' : search_list,
-		'categories': categories,
 		'query': q
 	}
 	return render(request, 'timeline/search_result.html', context)
