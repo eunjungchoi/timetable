@@ -6,7 +6,8 @@ class Study(models.Model):
 	title = models.CharField(max_length=100)
 	date = models.DateField()
 	contents = models.TextField(max_length=500)
-	category = models.ManyToManyField('Category') 
+	category = models.ManyToManyField('Category')
+
 
 	def __str__(self):
 		return self.title

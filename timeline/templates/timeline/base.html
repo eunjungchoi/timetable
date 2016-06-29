@@ -23,7 +23,20 @@
 	  		<div class="navbar-header">
 	    		<a class="navbar-brand" href="{% url 'index' %}">Timetable</a>
 			</div>
-			<p class="navbar-text navbar-right">{{ user.username }} 님이 로그인하셨습니다. <a href="{% url 'log_out' %}" class="navbar-link">로그아웃</a></p>
+
+			<div class="navbar-text navbar-center">
+				<form class="form-inline" action="{% url 'search' %}" method="get">
+				{% csrf_token %}
+					<div class="form-group">
+						<input type="text" class="form-control" name="q" id="q" placeholder="ex) 파이썬">
+					</div>
+					<button type="submit" class="btn btn-default">검색</button>
+				</form>
+			</div>
+			
+			<div class="navbar-text navbar-right">
+			<p>{{ user.username }} <a href="{% url 'log_out' %}" class="navbar-link">로그아웃</a></p>
+			</div>
 		</div>
 		{% endblock %}
 	</nav>

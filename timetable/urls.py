@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^add/$', views.add, name='add'),
     url(r'^editform/(?P<study_id>[0-9]+)/$', views.editform, name='editform'),
     url(r'^edit/$', views.edit, name='edit'),
+    url(r'^search/$', views.search, name='search'),
     url(r'^catadd/$', views.catadd, name='catadd'),
     url(r'^delete/$', views.delete, name='delete'),
     url(r'^delete-each/(?P<study_id>[0-9]+)$', views.delete_each, name='delete_each'), 

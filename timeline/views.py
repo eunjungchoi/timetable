@@ -5,12 +5,21 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from timeline.models import *
+
+
 
 def log_in(request):
 	if request.user.is_authenticated():
 		return redirect(reverse('index'))
 	return render(request, 'timeline/login.html')
+
+
+@login_required
+def log_out(request):
+	logout(request)
+	return redirect(reverse('log_in'))
 
 
 @login_required
@@ -44,9 +53,24 @@ def detail(request, study_id):
 
 
 @login_required
-def log_out(request):
-	logout(request)
-	return redirect(reverse('log_in'))
+def search(request):
+	study_list = Study.objects.filter(user=request.user).order_by('-date')
+	categories = Category.objects.filter(user=request.user)
+
+	if 'q' in request.GET and request.GET['q']:
+		q = request.GET['q']
+
+	search_list = study_list.filter(Q(contents__contains=q) | Q(title__contains=q))
+	for each in search_list:
+		each.cat = [ each_cat.name for each_cat in each.category.all()]
+
+	context = {
+		'search_list' : search_list,
+		'categories': categories,
+		'query': q
+	}
+	return render(request, 'timeline/search_result.html', context)
+
 
 
 @login_required

@@ -1,0 +1,33 @@
+{% extends "timeline/base.html" %}
+
+
+{% block content %}	
+
+<div class="container">
+	<div class="row" style="margin-top:30px">
+		<div class="col-lg-10">
+		<h2>{{ query }}로 검색한 결과:</h2>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top:30px">
+		<div class="col-lg-10">
+			<div class="table-responsive">
+			<table class="table">
+				<tr>
+					<th>date</th>
+					<th>title</th>
+				</tr>
+				{% for each in search_list %}
+				<tr>
+					<td>{{ each.date|date:"Y-m-d" }}</td>
+					<td><a href="{% url 'detail' each.id %}">{{ each.title }}</a></td>
+				</tr>
+				{% endfor %}
+			</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
