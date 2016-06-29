@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^login/$', views.log_in, name='log_in'),
     url(r'^logout/$', views.log_out, name='log_out'),
     url(r'^$', views.index, name='index'),
+    url(r'^user/(?P<user_id>[0-9]+)$', views.account, name='account'),
     url(r'^(?P<study_id>[0-9]+)$', views.detail, name='detail'),
     url(r'^add/$', views.add, name='add'),
     url(r'^editform/(?P<study_id>[0-9]+)/$', views.editform, name='editform'),

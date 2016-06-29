@@ -40,6 +40,26 @@ def index(request):
 
 
 @login_required
+def account(request, user_id):
+	if request.user.pk != user_id:
+		return render(request, 'timeline/404error.html')
+	
+	user = User.objects.get(pk=user_id)
+	study_list = Study.objects.filter(user=user).order_by('-date')
+	for study in study_list:
+		study.cat = [ each_cat.name for each_cat in study.category.all()]
+	
+	categories = Category.objects.filter(user=user)
+
+	context = {
+		'study_list' : study_list,
+		'categories' : categories,
+		'user' : user,
+	}
+	return render(request, 'timeline/index.html', context)
+
+
+@login_required
 def detail(request, study_id):
 	categories = Category.objects.filter(user=request.user)
 	study = Study.objects.filter(user=request.user).get(pk=study_id)
