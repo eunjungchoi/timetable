@@ -41,7 +41,7 @@ def index(request):
 
 @login_required
 def account(request, user_id):
-	if request.user.pk != user_id:
+	if request.user.pk != int(user_id):
 		return render(request, 'timeline/404error.html')
 	
 	user = User.objects.get(pk=user_id)
@@ -57,6 +57,16 @@ def account(request, user_id):
 		'user' : user,
 	}
 	return render(request, 'timeline/index.html', context)
+
+@login_required
+def add_audience(request):
+	a = Audidence(
+	user=request.user,
+	audidence=request.POST['audience_userid'],
+	)
+	a.save()
+
+	return redirect(reverse('index'))
 
 
 @login_required
@@ -115,15 +125,14 @@ def edit(request):
 	s = Study.objects.get(pk=study_id)
 	s.title = request.POST['title']
 	s.date = request.POST['date']
-#  이부분을 해야 됨. -------------------------------------------수정을 하긴 했는데, 원래 카테고리가 안 뜸-----
 	s.save()
 
 	cat_list = request.POST.getlist('category')
-
 	for cat in cat_list:
 		each_cat = Category.objects.filter(user=request.user).get(name=cat)
 		s.category.add(each_cat)
 	return redirect(reverse('index'))
+
 
 @login_required
 def delete(request):
@@ -134,6 +143,7 @@ def delete(request):
 		each.delete()
 
 	return redirect(reverse('index'))
+
 
 @login_required
 def delete_each(request, study_id):

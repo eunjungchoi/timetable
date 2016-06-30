@@ -28,3 +28,9 @@ class Category(models.Model):
 			return self.name
 
 
+class Audience(models.Model):
+	user = models.ForeignKey(User, related_name='owner')
+	audience = models.ManyToManyField(User, related_name ='audience')
+
+
+
