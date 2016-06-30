@@ -58,14 +58,32 @@ def account(request, user_id):
 	}
 	return render(request, 'timeline/index.html', context)
 
+
 @login_required
 def add_audience(request):
-	a = Audidence(
-	user=request.user,
-	audidence=request.POST['audience_userid'],
-	)
-	a.save()
+	try:
+		owner = Audience.objects.get(user=request.user)
+	except Audience.DoesNotExist:
+		owner = None
 
+	viewer_id = request.POST['audience_userid']
+	viewer = User.objects.get(pk=int(viewer_id))
+
+	user=request.user
+
+	if not owner:
+		a = Audience(
+			user=request.user,
+			)
+		a.save()
+		a.audience.add(viewer)
+
+	elif user.audience.filter(audience=viewer).exists():
+		pass
+		
+	else:
+		owner.audience.add(viewer)
+		
 	return redirect(reverse('index'))
 
 
