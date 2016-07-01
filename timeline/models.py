@@ -28,9 +28,23 @@ class Category(models.Model):
 			return self.name
 
 
-class Audience(models.Model):
-	user = models.ForeignKey(User, related_name='owner')
-	audience = models.ManyToManyField(User, related_name ='audience')
+class Timeline(models.Model):
+	owner = models.ForeignKey(User)
+	followers = models.ManyToManyField(User, related_name ='followings')
 
 
+#################
+# 풀어서 쓰면, 이런 느낌.
+# 
+# class Audience(models.Model):
+# 	user = models.ForeignKey(User, related_name='owner')
+# 
+# class Audience_Audience(Models.Model)	
+# 	audience = models.ForeignKey(Audience)
+# 	user = models.ForeignKey(User)
 
+# ...
+# 같은 테이블에 대한 ManyToMany
+# class ViewPermission(Models.Model)	
+# 	user = models.ForeignKey(User)
+# 	viewer = models.ForeignKey(User)

@@ -47,12 +47,12 @@ def account(request, user_id):
 		return render(request, 'timeline/404error.html')
 
 	try:
-		timeline = Audience.objects.get(user=user)
-	except Audience.DoesNotExist:
+		timeline = Timeline.objects.get(owner=user)
+	except Timeline.DoesNotExist:
 		return render(request, 'timeline/404error.html')
 
 	same_user = request.user.pk == user.pk
-	has_permission = timeline.audience.filter(id=request.user.id).exists()
+	has_permission = timeline.followers.filter(id=request.user.id).exists()
 
 	if (not same_user) and (not has_permission):
 		return render(request, 'timeline/403error.html')
@@ -72,29 +72,22 @@ def account(request, user_id):
 
 
 @login_required
-def add_audience(request):
+def add_follower(request):
 	try:
-		owner = Audience.objects.get(user=request.user)
-	except Audience.DoesNotExist:
-		owner = None
-
-	viewer_id = request.POST['audience_userid']
-	viewer = User.objects.get(pk=int(viewer_id))
-
-	user=request.user
-
-	if not owner:
-		a = Audience(
-			user=request.user,
+		timeline = Timeline.objects.get(owner=request.user)
+	except Timeline.DoesNotExist:
+		timeline = Timeline(
+			owner=request.user,
 			)
-		a.save()
-		a.audience.add(viewer)
+		timeline.save()
 
-	elif user.audience.filter(audience=viewer).exists():
-		pass
-		
-	else:
-		owner.audience.add(viewer)
+	follower_id = int(request.POST['follower_id'])
+	follower = User.objects.get(pk=follower_id)
+
+	user = request.user
+
+	if not user.followings.filter(followers=follower).exists():
+		timeline.followers.add(follower)
 		
 	return redirect(reverse('index'))
 

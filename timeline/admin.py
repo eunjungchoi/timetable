@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Study, Category, Audience
+from .models import Study, Category, Timeline
 
 
 
@@ -9,5 +9,5 @@ class StudyAdmin(admin.ModelAdmin):
 
 admin.site.register(Study, StudyAdmin)
 admin.site.register(Category)
-admin.site.register(Audience)
+admin.site.register(Timeline)
 
