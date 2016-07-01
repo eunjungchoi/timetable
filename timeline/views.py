@@ -41,10 +41,22 @@ def index(request):
 
 @login_required
 def account(request, user_id):
-	if request.user.pk != int(user_id):
+	try:
+		user = User.objects.get(pk=user_id)
+	except User.DoesNotExist:
 		return render(request, 'timeline/404error.html')
-	
-	user = User.objects.get(pk=user_id)
+
+	try:
+		timeline = Audience.objects.get(user=user)
+	except Audience.DoesNotExist:
+		return render(request, 'timeline/404error.html')
+
+	same_user = request.user.pk == user.pk
+	has_permission = timeline.audience.filter(id=request.user.id).exists()
+
+	if (not same_user) and (not has_permission):
+		return render(request, 'timeline/403error.html')
+
 	study_list = Study.objects.filter(user=user).order_by('-date')
 	for study in study_list:
 		study.cat = [ each_cat.name for each_cat in study.category.all()]
@@ -54,7 +66,7 @@ def account(request, user_id):
 	context = {
 		'study_list' : study_list,
 		'categories' : categories,
-		'user' : user,
+		'user' : request.user,
 	}
 	return render(request, 'timeline/index.html', context)
 
