@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
 from timeline import views
 
 
 urlpatterns = [
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes': True, }),
     url(r'', include('social.apps.django_app.urls', namespace='social')),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', views.log_in, name='log_in'),

@@ -24,8 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG')
-
+DEBUG = bool(os.environ.get('DEBUG'))
 
 LOGIN_URL = '/login/'
 ALLOWED_HOSTS = []
@@ -69,13 +68,12 @@ TEMPLATES = [
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.core.context_processors.debug',
-                'django.core.context_processors.i18n',
-                'django.core.context_processors.media',
-                'django.core.context_processors.static',
-                'django.core.context_processors.tz',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'social.apps.django_app.context_processors.backends',
                 'social.apps.django_app.context_processors.login_redirect',
             ],

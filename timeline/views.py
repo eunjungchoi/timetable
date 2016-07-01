@@ -44,18 +44,18 @@ def account(request, user_id):
 	try:
 		user = User.objects.get(pk=user_id)
 	except User.DoesNotExist:
-		return render(request, 'timeline/404error.html')
+		return render(request, '404.html')
 
 	try:
 		timeline = Timeline.objects.get(owner=user)
 	except Timeline.DoesNotExist:
-		return render(request, 'timeline/404error.html')
+		return render(request, '404.html')
 
 	same_user = request.user.pk == user.pk
 	has_permission = timeline.followers.filter(id=request.user.id).exists()
 
 	if (not same_user) and (not has_permission):
-		return render(request, 'timeline/403error.html')
+		return render(request, '403.html')
 
 	study_list = Study.objects.filter(user=user).order_by('-date')
 	for study in study_list:
@@ -73,13 +73,7 @@ def account(request, user_id):
 
 @login_required
 def add_follower(request):
-	try:
-		timeline = Timeline.objects.get(owner=request.user)
-	except Timeline.DoesNotExist:
-		timeline = Timeline(
-			owner=request.user,
-			)
-		timeline.save()
+	timeline = Timeline.objects.get(owner=request.user)
 
 	follower_id = int(request.POST['follower_id'])
 	follower = User.objects.get(pk=follower_id)
