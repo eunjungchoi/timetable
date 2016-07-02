@@ -35,22 +35,20 @@ def index(request):
 	try:
 		timeline = Timeline.objects.get(owner=request.user)
 		follower_IDs = [ each.id for each in timeline.followers.all()]
+		follower_usernames = [ each.username for each in timeline.followers.all()]
+		# follower_infos = zip(follower_IDs, follower_usernames)
+
 	except:
 		timeline = None
-
-	# followers = user.followings.all()
-	# follower_list = []
-
-	# for follower in followers:
-	# 	follower_list += follower.id
-
 
 	context = {
 		'study_list' : study_list,
 		'categories' : categories,
 		'user' : user,
-		'follower_IDs' : follower_IDs
-	}
+		# 'follower_infos' : follower_infos
+		'follower_IDs' : follower_IDs,
+		'follower_usernames' : follower_usernames
+		}
 	return render(request, 'timeline/index.html', context)
 
 
