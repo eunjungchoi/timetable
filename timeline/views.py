@@ -28,13 +28,28 @@ def index(request):
 	for study in study_list:
 		study.cat = [ each_cat.name for each_cat in study.category.all()]
 	
-	categories = Category.objects.filter(user=request.user)
 	user = request.user
+
+	categories = Category.objects.filter(user=request.user)
+
+	try:
+		timeline = Timeline.objects.get(owner=request.user)
+		follower_IDs = [ each.id for each in timeline.followers.all()]
+	except:
+		timeline = None
+
+	# followers = user.followings.all()
+	# follower_list = []
+
+	# for follower in followers:
+	# 	follower_list += follower.id
+
 
 	context = {
 		'study_list' : study_list,
 		'categories' : categories,
 		'user' : user,
+		'follower_IDs' : follower_IDs
 	}
 	return render(request, 'timeline/index.html', context)
 
@@ -73,16 +88,42 @@ def account(request, user_id):
 
 @login_required
 def add_follower(request):
-	timeline = Timeline.objects.get(owner=request.user)
+	try:
+		timeline = Timeline.objects.get(owner=request.user)
+	except :
+		timeline = Timeline(
+			owner=request.user
+			)
+		timeline.save
 
 	follower_id = int(request.POST['follower_id'])
 	follower = User.objects.get(pk=follower_id)
 
 	user = request.user
 
-	if not user.followings.filter(followers=follower).exists():
+	if not user.followings.filter(id=follower_id).exists():
+	# if not user.followings.filter(followers=follower).exists():
 		timeline.followers.add(follower)
+
+		# timeline=Timeline(
+		# 	owner=request.user,
+		# 	followers=follower
+		# 	)
+		# timeline.save
+
+		# user.followings.add(follower)
 		
+	return redirect(reverse('index'))
+
+
+@login_required
+def delete_follower(request):
+	follower_id_list_to_del = request.POST.getlist('follower_name')
+	
+	for follower_id in follower_id_list_to_del:
+		each = Timeline.objects.filter(owner=request.user).get(pk=follower_id)
+		each.delete()
+
 	return redirect(reverse('index'))
 
 
@@ -197,7 +238,6 @@ def editform(request, study_id):
 	categories = Category.objects.filter(user=request.user)
 	study = Study.objects.filter(user=request.user).get(pk=study_id)
 	study.cat = study.get_category_names()
-	# [ each_cat.name for each_cat in study.category.all()]
 
 	context = {
 		'study' : study,

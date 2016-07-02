@@ -26,7 +26,6 @@ class Category(models.Model):
 	user = models.ForeignKey(User)
 	timeline = models.ForeignKey('Timeline', null=True, blank=True, default = None)
 	name = models.CharField(max_length=30)
-
 	
 	def __str__(self):
 			return self.name
@@ -35,6 +34,9 @@ class Category(models.Model):
 class Timeline(models.Model):
 	owner = models.ForeignKey(User)
 	followers = models.ManyToManyField(User, related_name ='followings')
+
+	def __str__(self):
+		return self.owner.username
 
 
 #################
