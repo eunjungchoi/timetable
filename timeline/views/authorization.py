@@ -73,7 +73,6 @@ def add_follower(request):
 	return redirect(reverse('index'))
 
 
-
 @login_required
 def delete_follower(request):
 	follower_id_list_to_del = request.POST.getlist('each_id_to_del')
@@ -81,14 +80,13 @@ def delete_follower(request):
 
 	for each_id in follower_id_list_to_del:
 		follower = User.objects.get(pk=int(each_id))
+		timeline = Timeline.objects.get(owner=request.user)
+		timeline.followers = timeline.followers.exclude(id=follower.id)
 
-		user.followings.filter(followers=follower).delete()
-		# timeline = Timeline.objects.filter(owner=request.user).get(followers=follower)
-			# get(user_id=each_id)
+		# user.followings.filter(followers=follower).delete()
 		# timeline.followers.get(user_id=each_id).delete()
 		# each_follower = timeline.followers.get(id=int(each_id))
-		# timeline - each_follower
-		# each_follower.delete()
+		# each_follower.delete()  <= 이렇게 하면 user 인스턴스가 통째로 삭제됨. 본의 아니게 남의 계정을 삭제하는 부작용
 	
 	return redirect(reverse('index'))
 
