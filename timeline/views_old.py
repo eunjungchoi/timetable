@@ -35,19 +35,15 @@ def index(request):
 	try:
 		timeline = Timeline.objects.get(owner=request.user)
 		follower_IDs = [ each.id for each in timeline.followers.all()]
-		follower_usernames = [ each.username for each in timeline.followers.all()]
-		# follower_infos = zip(follower_IDs, follower_usernames)
-
 	except:
 		timeline = None
-
+		follower_IDs = []
+	
 	context = {
 		'study_list' : study_list,
 		'categories' : categories,
 		'user' : user,
-		# 'follower_infos' : follower_infos
 		'follower_IDs' : follower_IDs,
-		'follower_usernames' : follower_usernames
 		}
 	return render(request, 'timeline/index.html', context)
 
@@ -88,40 +84,49 @@ def account(request, user_id):
 def add_follower(request):
 	try:
 		timeline = Timeline.objects.get(owner=request.user)
-	except :
+	except:
 		timeline = Timeline(
 			owner=request.user
 			)
 		timeline.save
 
-	follower_id = int(request.POST['follower_id'])
-	follower = User.objects.get(pk=follower_id)
-
 	user = request.user
+	follower_id = int(request.POST['follower_id_to_add'])
 
-	if not user.followings.filter(id=follower_id).exists():
-	# if not user.followings.filter(followers=follower).exists():
-		timeline.followers.add(follower)
 
-		# timeline=Timeline(
-		# 	owner=request.user,
-		# 	followers=follower
-		# 	)
-		# timeline.save
+	try:
+		follower = User.objects.get(pk=follower_id)
+		if follower is request.user:
+			follower = None
 
-		# user.followings.add(follower)
-		
+		elif not user.followings.filter(id=follower_id).exists():
+			# follower = User.objects.get(pk=follower_id)
+			timeline.followers.add(follower)
+	except: 
+		follower = None
+
+	# if not user.followings.filter(id=follower_id).exists():
+	# 	timeline.followers.add(follower)
+
 	return redirect(reverse('index'))
 
 
 @login_required
 def delete_follower(request):
-	follower_id_list_to_del = request.POST.getlist('follower_name')
-	
-	for follower_id in follower_id_list_to_del:
-		each = Timeline.objects.filter(owner=request.user).get(pk=follower_id)
-		each.delete()
+	follower_id_list_to_del = request.POST.getlist('each_id_to_del')
+	user = request.user
 
+	for each_id in follower_id_list_to_del:
+		follower = User.objects.get(pk=int(each_id))
+
+		user.followings.filter(followers=follower).delete()
+		# timeline = Timeline.objects.filter(owner=request.user).get(followers=follower)
+			# get(user_id=each_id)
+		# timeline.followers.get(user_id=each_id).delete()
+		# each_follower = timeline.followers.get(id=int(each_id))
+		# timeline - each_follower
+		# each_follower.delete()
+	
 	return redirect(reverse('index'))
 
 
