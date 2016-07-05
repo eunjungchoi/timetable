@@ -81,8 +81,9 @@ def delete_follower(request):
 	for each_id in follower_id_list_to_del:
 		follower = User.objects.get(pk=int(each_id))
 		timeline = Timeline.objects.get(owner=request.user)
-		# timeline.followers = timeline.followers.exclude(id=follower.id)
 		timeline.followers.remove(follower)
+		# timeline.followers = timeline.followers.exclude(id=follower.id)
+
 
 		# user.followings.filter(followers=follower).delete()
 		# timeline.followers.get(user_id=each_id).delete()

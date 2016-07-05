@@ -1,10 +1,8 @@
-
-from .authentication import *
+from .auth import *
 from .home import *
-from .authorization import *
-from .crud_study import *
-from .crud_cat import *
+from .follow import *
+from .study import *
+from .category import *
 from .search import *
-
 
 
