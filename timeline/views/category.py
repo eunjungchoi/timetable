@@ -5,7 +5,7 @@ from timeline.models import *
 
 
 @login_required
-def add_cat(request):
+def add(request):
 	c = Category(
 	user=request.user,
 	name=request.POST['name'],
@@ -16,7 +16,7 @@ def add_cat(request):
 
 
 @login_required
-def delete_cat(request):
+def delete(request):
 	cat_id_list_to_del = request.POST.getlist('cat_name')
 	
 	for cat_id in cat_id_list_to_del:

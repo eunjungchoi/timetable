@@ -17,6 +17,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 from timeline import views
+from timeline.views import category
 
 
 urlpatterns = [
@@ -33,8 +34,8 @@ urlpatterns = [
     url(r'^editform/(?P<study_id>[0-9]+)/$', views.editform, name='editform'),
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^search/$', views.search, name='search'),
-    url(r'^add-cat/$', views.add_cat, name='add_cat'),
+    url(r'^add-cat/$', views.category.add, name='add_cat'),
+    url(r'^delete-cat/$', views.category.delete, name='delete_cat'),
     url(r'^delete/$', views.delete, name='delete'),
     url(r'^delete-each/(?P<study_id>[0-9]+)$', views.delete_each, name='delete_each'), 
-    url(r'^delete-cat/$', views.delete_cat, name='delete_cat'),
 ]
