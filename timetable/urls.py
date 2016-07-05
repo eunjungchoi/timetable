@@ -33,8 +33,8 @@ urlpatterns = [
     url(r'^editform/(?P<study_id>[0-9]+)/$', views.editform, name='editform'),
     url(r'^edit/$', views.edit, name='edit'),
     url(r'^search/$', views.search, name='search'),
-    url(r'^catadd/$', views.catadd, name='catadd'),
+    url(r'^add-cat/$', views.add_cat, name='add_cat'),
     url(r'^delete/$', views.delete, name='delete'),
     url(r'^delete-each/(?P<study_id>[0-9]+)$', views.delete_each, name='delete_each'), 
-    url(r'^catdelete/$', views.catdelete, name='catdelete'),
+    url(r'^delete-cat/$', views.delete_cat, name='delete_cat'),
 ]
