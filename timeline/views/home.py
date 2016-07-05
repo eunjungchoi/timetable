@@ -18,8 +18,11 @@ def index(request):
 		study.cat = [ each_cat.name for each_cat in study.category.all()]
 	
 	user = request.user
-	social = user.social_auth.get()
-	url = 'https://graph.facebook.com/{0}/picture?type=small'.format(social.uid)
+	try:
+		social = user.social_auth.get()
+		url = 'https://graph.facebook.com/{0}/picture?type=small'.format(social.uid)
+	except:
+		url = ''
 
 	# 오래 걸림 
 	# response = requests.request('GET', url, 
