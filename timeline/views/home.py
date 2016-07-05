@@ -1,14 +1,6 @@
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.template import loader
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
-from django.core.urlresolvers import reverse
-from django.db.models import Q
 from timeline.models import *
-import requests
-
 
 
 @login_required
@@ -24,18 +16,9 @@ def index(request):
 	except:
 		url = ''
 
-	# 오래 걸림 
-	# response = requests.request('GET', url, 
-	# 	params={'redirect':0, 'access_token': social.extra_data['access_token']}
-	# 	)
-	# response.raise_for_status()
-	# profile_picture_url = response.json()['data']['url']
-
-
 	categories = Category.objects.filter(user=request.user)
 
 	try: 
-		 
 		timeline = Timeline.objects.get(owner=request.user)
 		follower_IDs = [ each.id for each in timeline.followers.all()]
 	except:
@@ -50,6 +33,14 @@ def index(request):
 		'profile_picture_url' : url
 		}
 	return render(request, 'timeline/index.html', context)
+
+
+# 다른 방법. (오래 걸림)
+	# response = requests.request('GET', url, 
+	# 	params={'redirect':0, 'access_token': social.extra_data['access_token']}
+	# 	)
+	# response.raise_for_status()
+	# profile_picture_url = response.json()['data']['url']
 
 
 @login_required
