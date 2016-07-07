@@ -52,8 +52,10 @@
 			{% if same_user %}
 			<button type="button" class="btn btn-default"><a href="{% url 'editform' study.id %}">수정</a> </button>
 			<button type="button" class="btn btn-default"><a href="{% url 'delete_each' study.id %}">삭제</a></button>
-			{% endif %}
+			<button type="button" class="btn btn-default"><a href="{% url 'index' %}">목록으로</a></button>
+			{% else %}
 			<button type="button" class="btn btn-default"><a href="{% url 'account' owner.id %}">목록으로</a></button>
+			{% endif %}
 		</div>
 	</div>
 </div>
