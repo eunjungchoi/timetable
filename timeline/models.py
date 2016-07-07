@@ -9,7 +9,7 @@ class Study(models.Model):
 	contents = models.TextField(max_length=500)
 	date = models.DateField()
 
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 	timeline = models.ForeignKey('Timeline', null=True, blank=True, default = None)
 	category = models.ManyToManyField('Category')
 
@@ -39,7 +39,7 @@ class Study(models.Model):
 class Category(models.Model):
 	name = models.CharField(max_length=30)
 
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 	timeline = models.ForeignKey('Timeline', null=True, blank=True, default = None)
 	
 	def __str__(self):
@@ -47,7 +47,7 @@ class Category(models.Model):
 
 
 class Timeline(models.Model):
-	owner = models.ForeignKey(User)
+	owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 	viewers = models.ManyToManyField(User, related_name ='viewers')
 
 	def __str__(self):
