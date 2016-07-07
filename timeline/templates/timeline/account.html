@@ -14,7 +14,9 @@
 			</form> -->
 			<p class="navbar-text navbar-right">{{ user.username }} <a href="{% url 'log_out' %}" class="navbar-link">로그아웃</a></p>
 			{% if profile_picture_url %}
-		<div class="navbar-right" style="margin: 10px 0;"><img src="{{ profile_picture_url }}" width="30" height="30"></div>
+		<div class="navbar-right" style="margin: 10px 0;">
+			<img src="{{ profile_picture_url }}" width="30" height="30">
+		</div>
 		{% endif %}
 	</div>
 	{% endblock %}

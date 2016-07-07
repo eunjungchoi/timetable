@@ -7,13 +7,17 @@ from timeline.models import *
 
 @login_required
 def index(request):
-	study_list = Study.objects.filter(user=request.user).order_by('-date')
+	user = request.user
+
+	study_list = Study.objects.filter(user=user).order_by('-date')
 	for study in study_list:
 		study.cat = study.get_category_names()
 	
 	try:
 		social = user.social_auth.get()
-		url = 'https://graph.facebook.com/{0}/picture?type=small'.format(social.uid)
+		url = 'https://graph.facebook.com/{0}/picture'.format(social.uid)
+		# url = 'https://graph.facebook.com/{0}/picture?type=small'.format(social.uid)
+
 	except:
 		url = ''
 
