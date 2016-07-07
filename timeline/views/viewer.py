@@ -33,8 +33,11 @@ def account(request, user_id):
 
 @login_required
 def add(request):
+	if not request.POST['viewer_id_to_add']:
+		return redirect(reverse('index'))
+	
 	timeline = get_object_or_404(Timeline, owner=request.user)
-		
+
 	user = request.user
 	viewer_id = int(request.POST['viewer_id_to_add'])
 
