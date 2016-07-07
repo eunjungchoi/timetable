@@ -9,13 +9,12 @@ from timeline.models import *
 def add(request):
 	categories = Category.objects.filter(user=request.user)
 
-	s = Study(
+	s = Study.objects.create(
 		user=request.user,
 		title=request.POST['title'],
 		date=request.POST['date'],
 		contents=request.POST['contents']
 		)
-	s.save()
 
 	cat_list = request.POST.getlist('category')
 
@@ -45,6 +44,7 @@ def edit(request):
 	s = Study.objects.get(pk=study_id)
 	s.title = request.POST['title']
 	s.date = request.POST['date']
+	s.contents = request.POST['contents']
 	s.save()
 
 	cat_list = request.POST.getlist('category')

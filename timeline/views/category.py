@@ -6,11 +6,10 @@ from timeline.models import *
 
 @login_required
 def add(request):
-	c = Category(
+	c = Category.objects.create(
 	user=request.user,
 	name=request.POST['name'],
 	)
-	c.save()
 
 	return redirect(reverse('index'))
 
