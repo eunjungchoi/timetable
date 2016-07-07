@@ -1,21 +1,26 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from timeline.models import *
+from django.shortcuts import get_object_or_404
 
+from timeline.models import *
 
 
 @login_required
 def account(request, user_id):
-	try:
-		user = User.objects.get(pk=user_id)
-	except User.DoesNotExist:
-		return render(request, '404.html')
+	
+	# try:
+	# 	user = User.objects.get(pk=user_id)
+	# except User.DoesNotExist:
+	# 	return render(request, '404.html')
 
-	try:
-		timeline = Timeline.objects.get(owner=user)
-	except Timeline.DoesNotExist:
-		return render(request, '404.html')
+	# try:
+	# 	timeline = Timeline.objects.get(owner=user)
+	# except Timeline.DoesNotExist:
+	# 	return render(request, '404.html')
+
+	user = get_object_or_404(User, pk=user_id)
+	timeline = get_object_or_404(Timeline, owner=user)
 
 	same_user = request.user.pk == user.pk
 	has_permission = timeline.followers.filter(id=request.user.id).exists()
@@ -39,10 +44,12 @@ def account(request, user_id):
 
 @login_required
 def add_follower(request):
-	try:
-		timeline = Timeline.objects.get(owner=request.user)
-	except Timeline.DoesNotExist:
-		return render(request, '404.html')
+	timeline = get_object_or_404(Timeline, owner=request.user)
+
+	# try:
+	# 	timeline = Timeline.objects.get(owner=request.user)
+	# except Timeline.DoesNotExist:
+	# 	return render(request, '404.html')
 		
 	user = request.user
 	follower_id = int(request.POST['follower_id_to_add'])
