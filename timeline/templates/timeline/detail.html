@@ -23,14 +23,16 @@
 			<label class="col-lg-2 control-label">Categories</label>
 			<div class="col-lg-8">
 				{% for each in study.cat %}
-				<span>{{ each }} |</span>
-			 	{% endfor %}			
+				<span>{{ each }}. </span>
+			 	{% endfor %}
 			</div>
 		</div>
 		<div class="col-lg-10" style="margin-top:30px">
+			{% if same_user %}
 			<button type="button" class="btn btn-default"><a href="{% url 'editform' study.id %}">수정</a> </button>
 			<button type="button" class="btn btn-default"><a href="{% url 'delete_each' study.id %}">삭제</a></button>
-			<button type="button" class="btn btn-default"><a href="{% url 'index' %}">목록으로</a></button>
+			{% endif %}
+			<button type="button" class="btn btn-default"><a href="{% url 'account' owner.id %}">목록으로</a></button>
 		</div>
 	</div>
 </div>
