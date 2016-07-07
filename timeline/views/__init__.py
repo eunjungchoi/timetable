@@ -1,7 +1,9 @@
-from .auth import *
-from .home import *
-from .follow import *
-from .study import *
-from .search import *
+from . import auth
 
+from . import home
+from . import study
+from . import category
+
+from . import viewer
+from . import search
 
