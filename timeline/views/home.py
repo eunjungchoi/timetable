@@ -7,7 +7,8 @@ from timeline.models import *
 def index(request):
 	study_list = Study.objects.filter(user=request.user).order_by('-date')
 	for study in study_list:
-		study.cat = [ each_cat.name for each_cat in study.category.all()]
+		# study.cat = [ each_cat.name for each_cat in study.category.all()]
+		study.cat = study.get_category_names()
 	
 	user = request.user
 	try:
@@ -20,15 +21,15 @@ def index(request):
 
 	try: 
 		timeline = Timeline.objects.get(owner=request.user)
-		follower_IDs = [ each.id for each in timeline.followers.all()]
+		viewer_IDs = [ each.id for each in timeline.viewers.all()]
 	except Timeline.DoesNotExist:
-		follower_IDs = []
+		viewer_IDs = []
 	
 	context = {
 		'study_list' : study_list,
 		'categories' : categories,
 		'user' : user,
-		'follower_IDs' : follower_IDs,
+		'viewer_IDs' : viewer_IDs,
 		'profile_picture_url' : url
 		}
 	return render(request, 'timeline/index.html', context)
@@ -46,7 +47,9 @@ def index(request):
 def detail(request, study_id):
 	categories = Category.objects.filter(user=request.user)
 	study = Study.objects.filter(user=request.user).get(pk=study_id)
-	study.cat = [ each_cat.name for each_cat in study.category.all()]
+	# study.cat = [ each_cat.name for each_cat in study.category.all()]
+	study.cat = study.get_category_names()
+
 	
 	context = {
 		'study' : study,

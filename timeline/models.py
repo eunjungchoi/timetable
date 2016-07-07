@@ -48,7 +48,7 @@ class Category(models.Model):
 
 class Timeline(models.Model):
 	owner = models.ForeignKey(User)
-	followers = models.ManyToManyField(User, related_name ='followings')
+	viewers = models.ManyToManyField(User, related_name ='viewers')
 
 	def __str__(self):
 		return self.owner.username
