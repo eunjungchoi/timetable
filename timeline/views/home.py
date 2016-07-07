@@ -21,8 +21,7 @@ def index(request):
 	try: 
 		timeline = Timeline.objects.get(owner=request.user)
 		follower_IDs = [ each.id for each in timeline.followers.all()]
-	except:
-		timeline = None
+	except Timeline.DoesNotExist:
 		follower_IDs = []
 	
 	context = {
