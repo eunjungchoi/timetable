@@ -9,7 +9,6 @@ from timeline.models import *
 def index(request):
 	study_list = Study.objects.filter(user=request.user).order_by('-date')
 	for study in study_list:
-		# study.cat = [ each_cat.name for each_cat in study.category.all()]
 		study.cat = study.get_category_names()
 	
 	try:
@@ -63,17 +62,3 @@ def detail(request, study_id):
 		'same_user' : same_user,
 	}
 	return render(request, 'timeline/detail.html', context)
-
-
-
-
-# @login_required
-# def old_detail(request, study_id):
-# 	study = Study.objects.filter(user=request.user).get(pk=study_id)
-# 	study.cat = study.get_category_names()
-	
-# 	context = {
-# 		'study' : study,
-# 		'categories': categories
-# 	}
-# 	return render(request, 'timeline/detail.html', context)

@@ -31,45 +31,6 @@ def account(request, user_id):
 	return render(request, 'timeline/account.html', context)
 
 
-
-# @login_required
-# def account_detail(request, study_id):
-# 	study = get_object_or_404(Study, pk=study_id)
-# 	study.cat = study.get_category_names()
-
-# 	# categories = Category.objects.filter(user=request.user)
-# 	# study = Study.objects.filter(user=request.user).get(pk=study_id)
-# 	# study.cat = [ each_cat.name for each_cat in study.category.all()]
-	
-# 	context = {
-# 		'study' : study,
-# 	}
-# 	return render(request, 'timeline/detail.html', context)
-
-
-
-# @login_required
-# def detail(request, study_id):
-# 	study = get_object_or_404(Study, pk=study_id)
-# 	owner = study.user
-# 	timeline = get_object_or_404(Timeline, owner=owner)
-
-# 	same_user = request.user.pk == owner.pk
-# 	has_permission = timeline.viewers.filter(id=request.user.id).exists()
-
-# 	if (not same_user) and (not has_permission):
-# 		return render(request, '403.html')
-
-# 	study.cat = study.get_category_names()
-# 	context = {
-# 		'study' : study,
-# 		'owner' : owner,
-# 		'same_user' : same_user,
-# 	}
-# 	return render(request, 'timeline/detail.html', context)
-
-
-
 @login_required
 def add(request):
 	timeline = get_object_or_404(Timeline, owner=request.user)
