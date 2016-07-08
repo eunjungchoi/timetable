@@ -21,7 +21,7 @@ class Study(models.Model):
 	contents = models.TextField(max_length=500)
 	date = models.DateField()
 
-	user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+	user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="studies")
 	timeline = models.ForeignKey('Timeline', null=True, blank=True, default = None)
 	category = models.ManyToManyField('Category')
 
@@ -46,6 +46,13 @@ class Study(models.Model):
 # for test:
 	def has_category(self, category_id):
 		return False
+
+
+class LatestStudy(Study):
+	class Meta:
+		ordering = ["-date", "-created_at"]
+		proxy = True
+
 
 
 class Category(models.Model):

@@ -9,21 +9,23 @@ from timeline.models import *
 def index(request):
 	user = request.user
 
-	study_list = Study.objects.filter(user=user).order_by('-date', '-created_at')
+	study_list = user.studies.order_by("-date", "-created_at")
+	# study_list = LatestStudy.objects.filter(user=user)
 	for study in study_list:
 		study.cat = study.get_category_names()
 	
-	categories = Category.objects.filter(user=request.user)
+	# categories = Category.objects.filter(user=request.user)
 
-	try: 
-		timeline = Timeline.objects.get(owner=request.user)
-		viewer_IDs = [ each.id for each in timeline.viewers.all()]
-	except Timeline.DoesNotExist:
-		viewer_IDs = []
+	# try: 
+	# timeline = Timeline.objects.get(owner=request.user)
+	timeline = user.timeline_set.all()[0]
+	viewer_IDs = [ each.id for each in timeline.viewers.all()]
+	# except Timeline.DoesNotExist:
+	# 	viewer_IDs = []
 	
 	context = {
 		'study_list' : study_list,
-		'categories' : categories,
+		'categories' : user.category_set.all(),
 		'viewer_IDs' : viewer_IDs,
 		}
 	return render(request, 'timeline/index.html', context)
@@ -44,16 +46,17 @@ def detail(request, study_id):
 	owner = get_object_or_404(User, pk=study.user.id)
 	timeline = get_object_or_404(Timeline, owner=owner)
 
-	same_user = request.user.pk == owner.pk
+	is_owner = request.user.pk == owner.pk
 	has_permission = timeline.viewers.filter(id=request.user.id).exists()
 
-	if (not same_user) and (not has_permission):
+	# if (not is_owner) and (not has_permission):
+	if not (is_owner or has_permission):
 		return render(request, '403.html')
 
 	study.cat = study.get_category_names()
 	context = {
 		'study' : study,
 		'owner' : owner,
-		'same_user' : same_user,
+		'same_user' : is_owner,
 	}
 	return render(request, 'timeline/detail.html', context)
