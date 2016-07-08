@@ -2,6 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.utils import timezone
+from social.apps.django_app.default.models import UserSocialAuth
+
+def get_profile_image(self):
+	try:
+		social = self.social_auth.get()
+		url = 'https://graph.facebook.com/{0}/picture'.format(social.uid)
+	except UserSocialAuth.DoesNotExist:
+		url = ''
+
+	return url
+
+User.add_to_class("get_profile_image", get_profile_image)
 
 
 class Study(models.Model):

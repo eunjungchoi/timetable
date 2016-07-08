@@ -13,14 +13,6 @@ def index(request):
 	for study in study_list:
 		study.cat = study.get_category_names()
 	
-	try:
-		social = user.social_auth.get()
-		url = 'https://graph.facebook.com/{0}/picture'.format(social.uid)
-		# url = 'https://graph.facebook.com/{0}/picture?type=small'.format(social.uid)
-
-	except:
-		url = ''
-
 	categories = Category.objects.filter(user=request.user)
 
 	try: 
@@ -33,7 +25,6 @@ def index(request):
 		'study_list' : study_list,
 		'categories' : categories,
 		'viewer_IDs' : viewer_IDs,
-		'profile_picture_url' : url
 		}
 	return render(request, 'timeline/index.html', context)
 
