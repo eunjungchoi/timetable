@@ -9,7 +9,7 @@ from timeline.models import *
 def index(request):
 	user = request.user
 
-	study_list = Study.objects.filter(user=user).order_by('-date')
+	study_list = Study.objects.filter(user=user).order_by('-date', '-created_at')
 	for study in study_list:
 		study.cat = study.get_category_names()
 	
