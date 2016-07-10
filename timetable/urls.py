@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
+from django.conf.urls.static import static
+
 from timeline import views
 # from timeline.views import *
 
@@ -38,4 +40,7 @@ urlpatterns = [
     url(r'^delete-cat/$', views.category.delete, name='delete_cat'),
     url(r'^delete/$', views.study.delete, name='delete'),
     url(r'^delete-each/(?P<study_id>[0-9]+)$', views.study.delete_each, name='delete_each'), 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+# 마지막 static 라인은, debug= True일 때만 동작. 
