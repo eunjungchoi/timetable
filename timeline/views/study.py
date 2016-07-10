@@ -18,7 +18,8 @@ def add(request):
 		user=request.user,
 		title=request.POST['title'],
 		date=request.POST['date'],
-		contents=request.POST['contents']
+		contents=request.POST['contents'],
+		pic=request.FILES['photo'],
 		)
 
 	cat_list = request.POST.getlist('category')
