@@ -13,6 +13,23 @@
 		Timetable
 		{% endblock %}
 	</title>
+	<style>
+	* {
+    margin: 0;
+	}
+	html, body {
+	    height: 100%;
+	}
+	.wrapper {
+	    min-height: 100%;
+	    height: auto !important;
+	    height: 100%;
+	    margin: 0 auto -142px; /* the bottom margin is the negative value of the footer's height */
+	}
+	.footer, .push {
+	    height: 142px; /* .push must be the same height as .footer */
+	}
+	</style>
 </head>
 
 <body style="margin-bottom:60px">
@@ -36,12 +53,13 @@
 		{% endblock %}
 	</nav>
 
-	<div id="content">
+	<div id="content" class="wrapper">
 		{% block content %}
 		{% endblock %}
+		<div class="push">
+		</div>
 	</div>
-
-	<div id="footer" style="margin-top:60px">
+	<div id="footer" style="margin-top:60px" class="footer">
 		{% block footer %}
 		<div class="container">
 			<div class="row">
