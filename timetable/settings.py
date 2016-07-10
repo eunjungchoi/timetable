@@ -121,33 +121,32 @@ AUTHENTICATION_BACKENDS = (
     # 'social.backends.twitter.TwitterOAuth',
 )
 
+
+# social.apps.django_app settings
+# https://github.com/omab/python-social-auth
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-
-# Facebook
 
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('FACEBOOK_KEY')
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('FACEBOOK_SECRET')
 
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
- 
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'fields': 'id, name, email, age_range'
 }
 
+# session serializer required by social app
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+ 
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'ko-KR' # default = 'en-us'
+TIME_ZONE = 'Asia/Seoul' #'UTC'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -166,6 +165,10 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
 
+
+
+
+# ==========
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
@@ -181,3 +184,49 @@ STATICFILES_DIRS = (
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+
+# ===========
+# media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
+
+
+# ======================================================================
+# Amazon AWS setting
+
+AWS_STORAGE_BUCKET_NAME = 'timetable'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_REGION = 'ap-northeast-2' #"us-east-1"
+AWS_S3_HOST = 's3-%s.amazonaws.com' % AWS_REGION
+os.environ['S3_USE_SIGV4'] = 'True' # https://github.com/boto/boto/issues/2916
+
+
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+if not DEBUG:
+    # This is used by the `static` template tag from `static`, if you're using that. Or if anything else
+    # refers directly to STATIC_URL. So it's safest to always set it.
+    # STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+    STATIC_URL = "https://%s/static/" % (AWS_S3_CUSTOM_DOMAIN, )
+
+    # Tell the staticfiles app to use S3Boto storage when writing the collected static files (when
+    # you run `collectstatic`).
+    # STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    STATICFILES_STORAGE = 's3_storage.StaticStorage'
+
+
+    #
+    MEDIA_URL = "https://%s/media/" % (AWS_S3_CUSTOM_DOMAIN, )
+    
+    #DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    DEFAULT_FILE_STORAGE = 's3_storage.MediaStorage'
+
+
+
+
