@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.utils import timezone
 from social.apps.django_app.default.models import UserSocialAuth
 
+
 def get_profile_image(self):
 	try:
 		social = self.social_auth.get()
@@ -20,6 +21,7 @@ class Study(models.Model):
 	title = models.CharField(max_length=100)
 	contents = models.TextField(max_length=500)
 	date = models.DateField()
+	pic = models.ImageField(upload_to='timeline', null=True, blank=True, default=None)
 
 	user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="studies")
 	timeline = models.ForeignKey('Timeline', null=True, blank=True, default = None)
@@ -63,6 +65,7 @@ class Category(models.Model):
 	
 	def __str__(self):
 			return self.name
+
 
 
 class Timeline(models.Model):
