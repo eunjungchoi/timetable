@@ -25,7 +25,7 @@ def add(request):
 	cat_list = request.POST.getlist('category')
 
 	for cat in cat_list:
-		each_cat = Category.objects.filter(user=request.user).get(name=cat)
+		each_cat = Category.objects.filter(user=request.user).get(id=cat.id)
 		s.category.add(each_cat)
 
 	return redirect(reverse('index'))
@@ -55,7 +55,7 @@ def edit(request):
 
 	cat_list = request.POST.getlist('category')
 	for cat in cat_list:
-		each_cat = Category.objects.filter(user=request.user).get(name=cat)
+		each_cat = Category.objects.filter(user=request.user).get(id=cat.id)
 		s.category.add(each_cat)
 	return redirect(reverse('index'))
 
