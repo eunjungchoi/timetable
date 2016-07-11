@@ -14,14 +14,9 @@ def index(request):
 	for study in study_list:
 		study.cat = study.get_category_names()
 	
-	# categories = Category.objects.filter(user=request.user)
-
-	# try: 
-	# timeline = Timeline.objects.get(owner=request.user)
 	timeline = user.timeline_set.all()[0]
 	viewer_IDs = [ each.id for each in timeline.viewers.all()]
-	# except Timeline.DoesNotExist:
-	# 	viewer_IDs = []
+
 	
 	context = {
 		'study_list' : study_list,
@@ -39,7 +34,6 @@ def index(request):
 	# profile_picture_url = response.json()['data']['url']
 
 
-
 @login_required
 def detail(request, study_id):
 	study = get_object_or_404(Study, pk=study_id)
@@ -49,7 +43,6 @@ def detail(request, study_id):
 	is_owner = request.user.pk == owner.pk
 	has_permission = timeline.viewers.filter(id=request.user.id).exists()
 
-	# if (not is_owner) and (not has_permission):
 	if not (is_owner or has_permission):
 		return render(request, '403.html')
 

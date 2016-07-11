@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
-
 from timeline.models import *
 
 
@@ -9,8 +8,6 @@ from timeline.models import *
 def add(request):
 	if not request.POST['title'] or not request.POST['date']:
 		return redirect(reverse('index'))
-	# input = None 처리 중, 4개 필드 모두 비워둔 상태로 등록 버튼을 눌렀을 경우만 먼저 처리 : 같은 페이지로 리다이렉트
-	# 제목과 날짜가 default 입력 필드
 
 	categories = Category.objects.filter(user=request.user)
 
