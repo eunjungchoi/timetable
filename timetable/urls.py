@@ -40,6 +40,8 @@ urlpatterns = [
     url(r'^delete-cat/$', views.category.delete, name='delete_cat'),
     url(r'^delete/$', views.study.delete, name='delete'),
     url(r'^delete-each/(?P<study_id>[0-9]+)$', views.study.delete_each, name='delete_each'), 
+    url(r'^cal/$', views.home.cal, name='cal'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
