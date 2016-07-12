@@ -53,3 +53,25 @@ def detail(request, study_id):
 		'same_user' : is_owner,
 	}
 	return render(request, 'timeline/detail.html', context)
+
+
+@login_required
+def cal(request):
+	user = request.user
+	categories = user.category_set.all()
+	for cat in categories:
+		cat.studynum = user.studies.filter(category=cat).count()
+
+	# study = get_object_or_404(Study, pk=study_id)
+	# study.cat = study.get_category_names()
+	context = {
+		'categories' : categories
+	}
+	return render(request, 'timeline/cal.html', context)
+
+# 쿼리셋의 각 아이템 별 개수 세기
+# http://stackoverflow.com/questions/5439901/getting-a-count-of-objects-in-a-queryset-in-django
+
+
+
+
