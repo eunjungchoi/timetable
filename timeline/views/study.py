@@ -21,8 +21,8 @@ def add(request):
 
 	cat_list = request.POST.getlist('category')
 
-	for cat in cat_list:
-		each_cat = Category.objects.filter(user=request.user).get(id=cat.id)
+	for cat_id in cat_list:
+		each_cat = Category.objects.filter(user=request.user).get(id=cat_id)
 		s.category.add(each_cat)
 
 	return redirect(reverse('index'))
@@ -60,7 +60,7 @@ def edit(request):
 @login_required
 def delete(request):
 	s_list = request.POST.getlist('item')
-	
+
 	for study_id in s_list:
 		each = Study.objects.filter(user=request.user).get(id=study_id)
 		each.delete()
