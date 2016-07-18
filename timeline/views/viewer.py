@@ -19,7 +19,7 @@ def account(request, user_id):
 	study_list = Study.objects.filter(user=owner).order_by('-date')
 	for study in study_list:
 		study.cat = study.get_category_names()
-	
+
 	categories = Category.objects.filter(user=owner)
 
 	context = {
@@ -34,7 +34,7 @@ def account(request, user_id):
 def add(request):
 	if not request.POST['viewer_id_to_add']:
 		return redirect(reverse('index'))
-	
+
 	timeline = get_object_or_404(Timeline, owner=request.user)
 
 	user = request.user
@@ -44,9 +44,9 @@ def add(request):
 		viewer = User.objects.get(pk=viewer_id)
 		if viewer_id == request.user.id:
 			pass
-		elif not user.viewers.filter(id=viewer_id).exists():
+		elif not timeline.viewers.filter(id=viewer_id).exists():
 			timeline.viewers.add(viewer)
-	except: 
+	except User.DoesNotExist:
 		pass
 
 	return redirect(reverse('index'))
@@ -64,8 +64,7 @@ def delete(request):
 		# timeline.viewers = timeline.viewers.exclude(id=viewer.id)  << 이렇게 해도 동일한 결과
 
 		# each_viewer = timeline.viewers.get(id=int(each_id))
-		# each_viewer.delete()  
+		# each_viewer.delete()
 		# : 이렇게 하면 user 인스턴스가 통째로 삭제됨. 본의 아니게 남의 계정을 삭제하는 부작용
-	
-	return redirect(reverse('index'))
 
+	return redirect(reverse('index'))

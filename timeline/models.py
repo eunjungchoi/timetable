@@ -62,7 +62,7 @@ class Category(models.Model):
 
 	user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 	timeline = models.ForeignKey('Timeline', null=True, blank=True, default = None)
-	
+
 	def __str__(self):
 			return self.name
 
@@ -84,17 +84,17 @@ def create_user_default_timeline(sender, instance, created, **kwargs):
 
 #################
 # class Timeline >> 풀어서 쓰면,
-# 
+#
 # class Audience(models.Model):
 # 	user = models.ForeignKey(User, related_name='owner')
-# 
-# class Audience_Audience(Models.Model)	
+#
+# class Audience_Audience(Models.Model)
 # 	audience = models.ForeignKey(Audience)
 # 	user = models.ForeignKey(User)
 
 # ...
 # 같은 테이블에 대한 ManyToMany
-# class ViewPermission(Models.Model)	
+# class ViewPermission(Models.Model)
 # 	user = models.ForeignKey(User)
 # 	viewer = models.ForeignKey(User)
 
