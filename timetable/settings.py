@@ -137,7 +137,7 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 
 # session serializer required by social app
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
- 
+
 
 
 # Internationalization
@@ -198,7 +198,7 @@ MEDIA_URL = '/media/'
 # ======================================================================
 # Amazon AWS setting
 
-AWS_STORAGE_BUCKET_NAME = 'timetable'
+AWS_STORAGE_BUCKET_NAME = 'snail-timetable'
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_REGION = 'ap-northeast-2' #"us-east-1"
@@ -223,10 +223,6 @@ if not DEBUG:
 
     #
     MEDIA_URL = "https://%s/media/" % (AWS_S3_CUSTOM_DOMAIN, )
-    
+
     #DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     DEFAULT_FILE_STORAGE = 's3_storage.MediaStorage'
-
-
-
-
