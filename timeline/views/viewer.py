@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -32,10 +33,17 @@ def account(request, user_id):
 
 @login_required
 def add(request):
-	if not request.POST['viewer_id_to_add']:
-		return redirect(reverse('index'))
+	json = {
+		'result': 'error',
+	}
 
-	timeline = get_object_or_404(Timeline, owner=request.user)
+	if not request.POST['viewer_id_to_add']:
+		return JsonResponse(json)
+
+	try:
+		timeline = Timeline.objects.get(owner=request.user)
+	except Timeline.DoesNotExist:
+		return JsonResponse(json)
 
 	user = request.user
 	viewer_id = int(request.POST['viewer_id_to_add'])
@@ -46,10 +54,31 @@ def add(request):
 			pass
 		elif not timeline.viewers.filter(id=viewer_id).exists():
 			timeline.viewers.add(viewer)
+			json["result"] = "success"
+			json["viewer_id"] = viewer_id
 	except User.DoesNotExist:
 		pass
 
-	return redirect(reverse('index'))
+	return JsonResponse(json)
+
+	# if not request.POST['viewer_id_to_add']:
+	# 	return redirect(reverse('index'))
+	#
+	# timeline = get_object_or_404(Timeline, owner=request.user)
+	#
+	# user = request.user
+	# viewer_id = int(request.POST['viewer_id_to_add'])
+	#
+	# try:
+	# 	viewer = User.objects.get(pk=viewer_id)
+	# 	if viewer_id == request.user.id:
+	# 		pass
+	# 	elif not timeline.viewers.filter(id=viewer_id).exists():
+	# 		timeline.viewers.add(viewer)
+	# except User.DoesNotExist:
+	# 	pass
+	#
+	# return redirect(reverse('index'))
 
 
 @login_required
