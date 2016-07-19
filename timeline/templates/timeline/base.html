@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-	<link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+	<link rel="stylesheet" href="{% static 'bootstrap-3.3.6/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'bootstrap-3.3.6/css/bootstrap-theme.min.css' %}">
 	<title>
 		{% block title %}
 		Timetable
@@ -64,14 +64,105 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-				©2016 Eunjung Choi
+				©2016 <span id="my-name">Eunjung Choi</span>
 				</div>
 			</div>
 		</div>
 		{% endblock %}
 	</div>
-
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>안녕하세요. jquery 왕입니다.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script src="{% static 'bootstrap-3.3.6/js/jquery-1.9.1.min.js' %}"></script>
+<script src="{% static 'bootstrap-3.3.6/js/bootstrap.min.js' %}"></script>
 <script>
+var $b = jQuery.noConflict();
+</script>
+<script src="{% static 'jquery-3.1.0/jquery-3.1.0.min.js' %}"></script>
+<script>
+// $(function() {
+$( document ).ready(function(){
+	// console.log("document ready!!!")
+	//
+	// // $("#content").click(function() {
+	// $("#content").on("click", function() {
+	// 	console.log("content clicked!!")
+	// })
+	//
+	// $("#content").on("hover", function() {
+	// 	console.log("content hover!!")
+	// })
+
+	// $("tr").hover(
+	// 	function() {
+	// 		$(this).css("background-color", "red")
+	// 	},
+	// 	function() {
+	// 		$(this).css("background-color", "")
+	// 	}
+	// )
+
+	$("#add_viewer_form").on("submit", function(e) {
+		e.preventDefault();
+
+		if ( !$("#add_viewer_form input[name='viewer_id_to_add']").val() ) {
+			alert("input value");
+			return;
+		}
+
+		var request = $.ajax({
+			url : $(this).attr('action'),
+			method : $(this).attr('method'),
+			data: $(this).serialize(),
+		})
+
+		request.done(function(data) {
+			console.log("done"); console.log(data)
+			var value = data.viewer_id
+			var cloned = $("#delete_viewer_form .checkbox-inline:last").clone()
+			var input_cloned = cloned.find("input")
+			input_cloned.val(value)
+			cloned.text(" " + value).prepend(input_cloned)
+
+			elems = $("#delete_viewer_form .checkbox-inline")
+			var index = elems.length;
+			for ( var i = 0 ; i < elems.length ; i++ ) {
+				if ( parseInt($(elems[i]).text()) <= value )
+					continue;
+				index = i;
+				break;
+			}
+
+			// $("#delete_viewer_form .checkbox-inline:last").after('<label class="checkbox-inline" for="each_id_to_del"><input type="checkbox" name="each_id_to_del" value="'+value+'"> '+value+'</label>')
+			// $("#delete_viewer_form .checkbox-inline:last").after(cloned)
+			$("#delete_viewer_form .checkbox-inline:eq("+(index-1)+")").after(cloned)
+
+			$("#add_viewer_form input[name='viewer_id_to_add']").val("")
+		})
+		request.fail(function() {
+			console.log("fail")
+		})
+	})
+
+	$("#my-name").on("click", function(e) {
+		// alert("안녕하세요. jquery 왕입니다");
+		$b('#myModal').modal('show')
+		return;
+	})
+})
 </script>
 </body>
 </html>
