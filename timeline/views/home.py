@@ -58,7 +58,9 @@ def detail(request, study_id):
 @login_required
 def cal(request):
 	user = request.user
-	cats = Category.objects.filter(user=user).annotate(num_study=Count('study'))
+	cats = user.category_set.annotate(num_study=Count('study'))
+	# cats = Category.objects.filter(user=user).annotate(num_study=Count('study'))
+
 	# 풀어쓰면 아래와 같음
 	# categories = user.category_set.all()
 	# for cat in categories:
