@@ -14,14 +14,9 @@ def index(request):
 	for study in study_list:
 		study.cat = study.get_category_names()
 
-	timeline = user.timeline_set.all()[0]
-	viewer_IDs = [ each.id for each in timeline.viewers.all()]
-
-
 	context = {
 		'study_list' : study_list,
 		'categories' : user.category_set.all(),
-		'viewer_IDs' : viewer_IDs,
 		}
 	return render(request, 'timeline/index.html', context)
 
