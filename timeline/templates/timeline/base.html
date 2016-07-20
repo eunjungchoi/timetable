@@ -115,6 +115,63 @@ $( document ).ready(function(){
 	// 	}
 	// )
 
+
+	$("#add_category_form").on("submit", function(e) {
+		e.preventDefault();
+
+		if ( !$("#add_category_form input[name='cat_name_to_add']").val() ) {
+			alert("카테고리를 입력해주세요");
+			return;
+		}
+
+		var request = $.ajax({
+			url : $(this).attr('action'),
+			method : $(this).attr('method'),
+			data: $(this).serialize(),
+		})
+
+		request.done(function(data) {
+			var value = data.cat_name_to_add
+			var cloned = $("#delete_category_form .checkbox-inline:last").clone()
+			var input_cloned = cloned.find("input")
+			input_cloned.val(value);
+			cloned.text(" " + value).prepend(input_cloned);
+
+			$("#delete_category_form .checkbox-inline:last").after(cloned)
+			$("#add_category_form input[name='cat_name_to_add']").val("")
+		})
+
+		request.fail(function() {
+			console.log("fail")
+		})
+	})
+
+
+	$("#delete_category_form").on("submit", function(e) {
+		e.preventDefault();
+
+		if ( $("#delete_category_form input[name='cat_id_to_del']:checked").length == 0) {
+			alert("삭제할 카테고리를 선택해주세요");
+			return;
+		}
+
+		var request = $.ajax({
+			url : $(this).attr('action'),
+			method : $(this).attr('method'),
+			data: $(this).serialize(),
+		})
+
+		request.done(function(data) {
+			$("#delete_category_form input[type='checkbox']:checked").parent().remove()
+		})
+
+		request.fail(function() {
+			console.log("fail")
+		})
+	})
+
+
+
 	$("#add_viewer_form").on("submit", function(e) {
 		e.preventDefault();
 
@@ -130,7 +187,6 @@ $( document ).ready(function(){
 		})
 
 		request.done(function(data) {
-			console.log("done"); console.log(data)
 			var value = data.viewer_id
 			var cloned = $("#delete_viewer_form .checkbox-inline:last").clone()
 			var input_cloned = cloned.find("input")
