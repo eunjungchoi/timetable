@@ -39,10 +39,12 @@ urlpatterns = [
     url(r'^add-cat/$', views.category.add, name='add_cat'),
     url(r'^delete-cat/$', views.category.delete, name='delete_cat'),
     url(r'^delete/$', views.study.delete, name='delete'),
-    url(r'^delete-each/(?P<study_id>[0-9]+)$', views.study.delete_each, name='delete_each'), 
+    url(r'^delete-each/(?P<study_id>[0-9]+)$', views.study.delete_each, name='delete_each'),
     url(r'^cal/$', views.home.cal, name='cal'),
+    url(r'^me/$', views.me.me, name='me'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-# 마지막 static 라인은, debug= True일 때만 동작. 
+# 마지막 static 라인은, debug= True일 때만 동작.

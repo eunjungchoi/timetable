@@ -7,3 +7,4 @@ from . import category
 from . import viewer
 from . import search
 
+from . import me
