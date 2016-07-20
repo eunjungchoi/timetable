@@ -44,16 +44,16 @@ def editform(request, study_id):
 @login_required
 def edit(request):
 	study_id = request.POST['study_id']
-	s = Study.objects.get(pk=study_id)
+	s = Study.objects.get(pk=int(study_id))
 	s.title = request.POST['title']
 	s.date = request.POST['date']
 	s.contents = request.POST['contents']
 	s.save()
 
-	cat_list = request.POST.getlist('category')
-	for cat in cat_list:
-		each_cat = Category.objects.filter(user=request.user).get(id=cat.id)
-		s.category.add(each_cat)
+	cat_id_list = request.POST.getlist('category_id_to_edit')
+	for cat_id in cat_id_list:
+		cat = Category.objects.filter(user=request.user).get(id=int(cat_id))
+		s.category.add(cat)
 	return redirect(reverse('index'))
 
 
