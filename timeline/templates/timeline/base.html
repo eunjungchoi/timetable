@@ -172,22 +172,13 @@ $( document ).ready(function(){
 		})
 
 		request.done(function(data) {
-			var values = data.viewer_id_list_to_del
-			elems = $("#delete_viewer_form .checkbox-inline")
-			checked = $("#delete_viewer_form .checkbox-inline:checked")
-			checked.remove()
-			})
+			$("#delete_viewer_form input[name='each_id_to_del']:checked").parent().remove()
 		})
-			// for ( var i = 0 ; i < elems.length ; i++ ) {
-			// 	if ( values.indexOf($("elems[i].text()")) != -1 )
-			// 		elems.remove(elems[i])
 
-		// 	// $("#delete_viewer_form .checkbox-inline").remove()
-		// 	// $("#delete_viewer_form input[name='viewer_id_to_add']").val("")
-		//
-		// request.fail(function() {
-		// 	console.log("fail")
-		// })
+		request.fail(function() {
+			console.log("fail")
+		})
+	})
 
 	$("#my-name").on("click", function(e) {
 		// alert("안녕하세요. jquery 왕입니다");
