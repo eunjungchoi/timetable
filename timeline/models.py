@@ -17,11 +17,15 @@ def get_profile_image(self):
 User.add_to_class("get_profile_image", get_profile_image)
 
 
+def user_directory_path(instance, filename):
+    return 'timeline/{0}_{1}_{2}'.format(instance.user.id, int(timezone.now().timestamp()), filename)
+
+
 class Study(models.Model):
 	title = models.CharField(max_length=100)
 	contents = models.TextField(max_length=500)
 	date = models.DateField()
-	pic = models.ImageField(upload_to='timeline', null=True, blank=True, default=None)
+	pic = models.ImageField(upload_to=user_directory_path, null=True, blank=True, default=None)
 
 	user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name="studies")
 	timeline = models.ForeignKey('Timeline', null=True, blank=True, default = None)
@@ -29,6 +33,7 @@ class Study(models.Model):
 
 	created_at = models.DateTimeField(null=True, default=None)
 	updated_at = models.DateTimeField(null=True, default=None)
+
 
 
 	def save(self, *args, **kwargs):
