@@ -11,13 +11,15 @@ def add(request):
 
 	categories = Category.objects.filter(user=request.user)
 
-	s = Study.objects.create(
+	s = Study(
 		user=request.user,
 		title=request.POST['title'],
 		date=request.POST['date'],
 		contents=request.POST['contents'],
-		pic=request.FILES['photo'],
-		)
+	)
+	if 'photo' in request.FILES:
+		s.pic = request.FILES['photo']
+	s.save()
 
 	cat_list = request.POST.getlist('category')
 
