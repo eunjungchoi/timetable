@@ -56,7 +56,7 @@ def edit(request):
 	for cat_id in cat_id_list:
 		cat = Category.objects.filter(user=request.user).get(id=int(cat_id))
 		s.category.add(cat)
-	return redirect(reverse('index'))
+	return redirect(reverse('detail', kwargs={'study_id':study_id}))
 
 
 @login_required
