@@ -8,30 +8,26 @@ from timeline.models import *
 
 @login_required
 def add(request):
-	json = {
-		'result': 'error',
-	}
+	json = {}
 
-	if not request.POST['cat_name_to_add']:
-		return JsonResponse(json)
+	if not request.POST['name']:
+		return JsonResponse(json, status=405)
 
-	cat_name = request.POST['cat_name_to_add']
+	cat_name = request.POST['name'].strip()
 
-	try:
-		c = Category.objects.get(
-			name=cat_name,
-		)
-		json["cat_name_to_add"] = cat_name
-	except Category.DoesNotExist:
+	if request.user.category_set.filter(name=cat_name).exists():
+		json["message"] = "동일한 카테고리가 있습니다"
+		return JsonResponse(json, status=400)
+
+	else:
 		c = Category.objects.create(
 			user=request.user,
 			name=cat_name,
 		)
-		json["result"] = "success"
-		json["cat_name_to_add"] = cat_name
+		json["name"] = cat_name
+		json["id"] = c.id
 
 	return JsonResponse(json)
-
 
 
 @login_required
