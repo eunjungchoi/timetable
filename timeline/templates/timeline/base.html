@@ -92,6 +92,7 @@
 var $b = jQuery.noConflict();
 </script>
 <script src="{% static 'jquery-3.1.0/jquery-3.1.0.min.js' %}"></script>
+<script src="{% static 'lodash-4.13.1/lodash.min.js' %}"></script>
 <script>
 // $(function() {
 $( document ).ready(function(){
@@ -119,7 +120,7 @@ $( document ).ready(function(){
 	$("#add_category_form").on("submit", function(e) {
 		e.preventDefault();
 
-		if ( !$("#add_category_form input[name='cat_name_to_add']").val() ) {
+		if ( !$("#add_category_form input[name='name']").val() ) {
 			alert("카테고리를 입력해주세요");
 			return;
 		}
@@ -131,18 +132,28 @@ $( document ).ready(function(){
 		})
 
 		request.done(function(data) {
-			var value = data.cat_name_to_add
-			var cloned = $("#delete_category_form .checkbox-inline:last").clone()
-			var input_cloned = cloned.find("input")
-			input_cloned.val(value);
-			cloned.text(" " + value).prepend(input_cloned);
+			var value = data.name
 
-			$("#delete_category_form .checkbox-inline:last").after(cloned)
-			$("#add_category_form input[name='cat_name_to_add']").val("")
+			var compiled = _.template('			<label class="checkbox-inline">\
+				<input type="checkbox" name="id" id="cat_id_to_del" value="<%= id %>"> <%= name %>\
+			</label>');
+			var label = compiled({
+				'id': data.id,
+				'name': value,
+			});
+
+			// var cloned = $("#delete_category_form .checkbox-inline:last").clone()
+			// var input_cloned = cloned.find("input")
+			// input_cloned.val(value);
+			// cloned.text(" " + value).prepend(input_cloned);
+
+			$("#delete_category_form .checkbox-inline:last").after(label)
+			$("#add_category_form input[name='name']").val("")
 		})
 
-		request.fail(function() {
-			console.log("fail")
+		request.fail(function(data) {
+			console.log(data.responseJSON.message)
+			alert(data.responseJSON.message);
 		})
 	})
 
