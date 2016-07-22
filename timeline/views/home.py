@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
+from django.utils import timezone
+from datetime import datetime, timedelta, date
 from timeline.models import *
 
 
@@ -54,6 +56,35 @@ def detail(request, study_id):
 def cal(request):
 	user = request.user
 	cats = user.category_set.annotate(num_study=Count('study'))
+	month = range(30)
+	today = date.today()
+	default_day = today - timedelta(days=30)
+
+	categories = []
+	for cat in cats:
+		item = {
+			"name": cat.name,
+			"num_study": cat.num_study,
+			# "studies" : [0] * 30,
+			# "date" : [today - timedelta(days=x) for x in reversed(range(30))]
+			"studies" : [[today - timedelta(days=x), 0] for x in reversed(range(30))],
+		}
+
+		recent_study_list = user.studies.filter(date__gte=default_day).filter(category=cat)
+		for study in recent_study_list:
+			d = study.date - default_day
+			x = d.days
+			item["studies"][x][1] += 1
+
+		categories.append(item)
+
+
+
+	# cal_dict = {
+	# 	"파이썬" : [0] * 30,
+	# 	"장고" : [1] * 30,
+	# }
+	#
 	# cats = Category.objects.filter(user=user).annotate(num_study=Count('study'))
 
 	# 풀어쓰면 아래와 같음
@@ -62,7 +93,11 @@ def cal(request):
 	# 	cat.studynum = user.studies.filter(category=cat).count()
 
 	context = {
-		'categories' : cats
+		'categories' : categories,
+		'month' : month,
+		'default_day': default_day,
+		'recent_study_list' : recent_study_list
+		# 'cal_dict' : cal_dict
 	}
 	return render(request, 'timeline/cal.html', context)
 

@@ -5,12 +5,20 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12">
-			<h3>여기에는 카테고리 별 캘린더가 들어갑니다. </h3>
-			<p>깃헙 스타일의 일년 색깔 달력.</p>
+			<h3>통계 보기 </h3>
 		</div>
 		{% for cat in categories %}
 		<div class="col-lg-12">
 				{{ cat.name }} : {{ cat.num_study }}
+			<div class="table-responsive">
+				<table class="category-cal table table-hover">
+					<tr>
+						{% for date, value in cat.studies %}
+						<td {% if value > 0 %} class="studied" {% endif %}> {% if forloop.counter == 0 or forloop.counter == 10 or forloop.counter == 20 or forloop.counter == 30 %}<span style="position:absolute;top:6px;">{{ date|date:'n.j' }}</span>{% endif %}</td>
+						{% endfor %}
+					</tr>
+				</table>
+			</div>
 		</div>
 		{% endfor %}
 	</div>
