@@ -19,6 +19,8 @@ def add(request):
 	)
 	if 'photo' in request.FILES:
 		s.pic = request.FILES['photo']
+		s.resize_image(max_size=(720,720))
+
 	s.save()
 
 	cat_list = request.POST.getlist('category')

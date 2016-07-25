@@ -35,6 +35,41 @@ class Study(models.Model):
 	updated_at = models.DateTimeField(null=True, default=None)
 
 
+	@staticmethod
+	def calculate_image_dimension(width, height, max_size=(720, 720)):
+		max_width, max_height = max_size
+
+		image_ratio = width / float(height)
+
+		if width < max_width and height < max_height:
+			new_width = width
+			new_height = height
+		elif width > height:
+			new_width = max_width
+			new_height = new_width / image_ratio
+		else:
+			new_height = max_height
+			new_width  = new_height * image_ratio
+
+		return int(new_width), int(new_height)
+
+
+	def resize_image(self, max_size):
+		from PIL import Image
+		import io
+		import os
+		from django.core.files.uploadedfile import SimpleUploadedFile
+
+		image = Image.open(self.pic)
+		image_width, image_height = image.size
+		new_width, new_height = Study.calculate_image_dimension(image_width, image_height, max_size)
+
+		resized_image = image.resize((new_width, new_height), Image.ANTIALIAS)
+
+		tempfile_io = io.BytesIO()
+		resized_image.save(tempfile_io, format=image.format)
+
+		self.pic = SimpleUploadedFile(name=self.pic.name, content=tempfile_io.getvalue(), content_type='image/jpeg')
 
 	def save(self, *args, **kwargs):
 		if not self.id:
