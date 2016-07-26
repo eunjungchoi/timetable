@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="{% static 'bootstrap-3.3.6/css/bootstrap.min.css' %}">
-	<link rel="stylesheet" href="{% static 'bootstrap-3.3.6/css/bootstrap-theme.min.css' %}">
+	<link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap-theme.min.css' %}">
 	<title>
 		{% block title %}
 		Timetable
@@ -58,8 +58,20 @@
 				</div>
 				<button type="submit" class="btn btn-default">검색</button>
 			</form>
-			<p class="navbar-text navbar-right"><a href="{% url 'me' %}" class="navbar-link">{{ user.username }}</a> | <a href="{% url 'log_out' %}" class="navbar-link">로그아웃</a></p>
+			<p class="navbar-text navbar-right dropdown"><a href="{% url 'me' %}" class="navbar-link">{{ user.username }}</a> | <a href="{% url 'log_out' %}" class="navbar-link">로그아웃</a></p>
 			<div class="navbar-right" style="margin: 10px 0;"><img src="{{ user.get_profile_image }}" width="30" height="30"></div>
+
+			<li class="dropdown">
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+			          <ul class="dropdown-menu">
+			            <li><a href="{% url 'me' %}">analytics</a> </li>
+			            <li><a href="#">Another action</a></li>
+			            <li role="separator" class="divider"></li>
+			            <li><a href="{% url 'log_out' %}" class="navbar-link">로그아웃</a></li>
+			          </ul>
+			        </li>
+
+
 		</div>
 		{% endblock %}
 	</nav>
@@ -97,11 +109,11 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<script src="{% static 'bootstrap-3.3.6/js/jquery-1.9.1.min.js' %}"></script>
-<script src="{% static 'bootstrap-3.3.6/js/bootstrap.min.js' %}"></script>
-<script>
+<!-- <script src="{% static 'bootstrap-3.3.7/js/jquery-1.9.1.min.js' %}"></script> -->
+<script src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+<!-- <script>
 var $b = jQuery.noConflict();
-</script>
+</script> -->
 <script src="{% static 'jquery-3.1.0/jquery-3.1.0.min.js' %}"></script>
 <script src="{% static 'lodash-4.13.1/lodash.min.js' %}"></script>
 <script>
@@ -260,7 +272,7 @@ $( document ).ready(function(){
 
 	$("#my-name").on("click", function(e) {
 		// alert("안녕하세요. jquery 왕입니다");
-		$b('#myModal').modal('show')
+		$('#myModal').modal('show')
 		return;
 	})
 })
