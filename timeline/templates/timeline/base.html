@@ -109,7 +109,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
+        <h4 class="modal-title">...</h4>
       </div>
       <div class="modal-body">
         <p>안녕하세요. jquery 왕입니다.</p>
@@ -173,10 +173,6 @@ $( document ).ready(function(){
 				'name': value,
 			});
 
-			// var cloned = $("#delete_category_form .checkbox-inline:last").clone()
-			// var input_cloned = cloned.find("input")
-			// input_cloned.val(value);
-			// cloned.text(" " + value).prepend(input_cloned);
 
 			$("#delete_category_form .checkbox-inline:last").after(label)
 			$("#add_category_form input[name='name']").val("")
@@ -244,8 +240,6 @@ $( document ).ready(function(){
 				break;
 			}
 
-			// $("#delete_viewer_form .checkbox-inline:last").after('<label class="checkbox-inline" for="each_id_to_del"><input type="checkbox" name="each_id_to_del" value="'+value+'"> '+value+'</label>')
-			// $("#delete_viewer_form .checkbox-inline:last").after(cloned)
 			$("#delete_viewer_form .checkbox-inline:eq("+(index-1)+")").after(cloned)
 
 			$("#add_viewer_form input[name='viewer_id_to_add']").val("")
