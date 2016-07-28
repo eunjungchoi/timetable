@@ -6,14 +6,12 @@ from urllib.parse import urlparse
 from timeline.models import *
 
 
-
 @login_required
 def search(request):
 	# 다른 계정 페이지에서 검색할 때`
 	current_url = request.get_full_path
 	check = urlparse(current_url)
 	check_path = check.path.split('/')[-1]
-
 
 	study_list = Study.objects.filter(user=request.user).order_by('-date')
 	q = request.GET.get("q", None)

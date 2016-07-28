@@ -10,7 +10,6 @@ from timeline.models import *
 @login_required
 def index(request):
 	user = request.user
-
 	study_list = user.studies.order_by("-date", "-created_at")
 	# study_list = LatestStudy.objects.filter(user=user)
 
@@ -19,7 +18,6 @@ def index(request):
 		'categories' : user.category_set.all(),
 		}
 	return render(request, 'timeline/index.html', context)
-
 
 # 다른 방법. (오래 걸림)
 	# response = requests.request('GET', url,
@@ -75,20 +73,6 @@ def cal(request):
 
 		categories.append(item)
 
-
-
-	# cal_dict = {
-	# 	"파이썬" : [0] * 30,
-	# 	"장고" : [1] * 30,
-	# }
-	#
-	# cats = Category.objects.filter(user=user).annotate(num_study=Count('study'))
-
-	# 풀어쓰면 아래와 같음
-	# categories = user.category_set.all()
-	# for cat in categories:
-	# 	cat.studynum = user.studies.filter(category=cat).count()
-
 	context = {
 		'categories' : categories,
 		'month' : month,
@@ -97,6 +81,3 @@ def cal(request):
 		# 'cal_dict' : cal_dict
 	}
 	return render(request, 'timeline/cal.html', context)
-
-# 쿼리셋의 각 아이템 별 개수 세기
-# http://stackoverflow.com/questions/5439901/getting-a-count-of-objects-in-a-queryset-in-django

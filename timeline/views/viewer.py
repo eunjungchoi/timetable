@@ -58,26 +58,6 @@ def add(request):
 
 	return JsonResponse(json)
 
-	# if not request.POST['viewer_id_to_add']:
-	# 	return redirect(reverse('index'))
-	#
-	# timeline = get_object_or_404(Timeline, owner=request.user)
-	#
-	# user = request.user
-	# viewer_id = int(request.POST['viewer_id_to_add'])
-	#
-	# try:
-	# 	viewer = User.objects.get(pk=viewer_id)
-	# 	if viewer_id == request.user.id:
-	# 		pass
-	# 	elif not timeline.viewers.filter(id=viewer_id).exists():
-	# 		timeline.viewers.add(viewer)
-	# except User.DoesNotExist:
-	# 	pass
-	#
-	# return redirect(reverse('index'))
-
-
 @login_required
 def delete(request):
 	json = {
@@ -97,12 +77,5 @@ def delete(request):
 		timeline.viewers.remove(viewer)
 		json["result"] = "success"
 		json["viewer_id_list_to_del"] = viewer_id_list_to_del
-		# timeline.viewers = timeline.viewers.exclude(id=viewer.id)  << 이렇게 해도 동일한 결과
-
-		# each_viewer = timeline.viewers.get(id=int(each_id))
-		# each_viewer.delete()
-		# : 이렇게 하면 user 인스턴스가 통째로 삭제됨. 본의 아니게 남의 계정을 삭제하는 부작용
 
 	return JsonResponse(json)
-
-	# return redirect(reverse('index'))
