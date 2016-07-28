@@ -86,7 +86,7 @@
 							<td><a href="{% url 'detail' study.id %}">{{ study.title }}</a></td>
 							{% for cat in categories %}
 							<td>
-							{% if cat.name in study.cat %}
+							{% if cat.name in study.get_category_names %}
 							O
 							{% endif %}
 							</td>

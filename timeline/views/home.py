@@ -13,8 +13,6 @@ def index(request):
 
 	study_list = user.studies.order_by("-date", "-created_at")
 	# study_list = LatestStudy.objects.filter(user=user)
-	for study in study_list:
-		study.cat = study.get_category_names()
 
 	context = {
 		'study_list' : study_list,
@@ -43,7 +41,6 @@ def detail(request, study_id):
 	if not (is_owner or has_permission):
 		return render(request, '403.html')
 
-	study.cat = study.get_category_names()
 	context = {
 		'study' : study,
 		'owner' : owner,

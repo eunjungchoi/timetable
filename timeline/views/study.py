@@ -36,7 +36,6 @@ def add(request):
 def editform(request, study_id):
 	categories = Category.objects.filter(user=request.user)
 	study = Study.objects.filter(user=request.user).get(pk=study_id)
-	study.cat = study.get_category_names()
 
 	context = {
 		'study' : study,

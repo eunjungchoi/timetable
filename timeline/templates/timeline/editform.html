@@ -37,7 +37,7 @@
 				<div class="col-lg-8">
 				{% for category in categories %}
 					<label class="checkbox-inline">
-						<input type="checkbox" name="category_id_to_edit" id="category-{{ category.id }}" value="{{category.id}}" {% if category.name in study.cat %} checked {% endif %}>
+						<input type="checkbox" name="category_id_to_edit" id="category-{{ category.id }}" value="{{category.id}}" {% if category.name in study.get_category_names %} checked {% endif %}>
 						<label for="category">{{category.name}}</label>
 					</label>
 				{% endfor %}

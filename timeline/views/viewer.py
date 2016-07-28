@@ -18,9 +18,6 @@ def account(request, user_id):
 		return render(request, '403.html')
 
 	study_list = Study.objects.filter(user=owner).order_by('-date')
-	for study in study_list:
-		study.cat = study.get_category_names()
-
 	categories = Category.objects.filter(user=owner)
 
 	context = {
