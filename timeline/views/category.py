@@ -41,10 +41,9 @@ def delete(request):
 
 	user = request.user
 	cat_id_list_to_del = request.POST.getlist('cat_id_to_del')
+	user.category_set.filter(id__in=cat_id_list_to_del).delete()
 
-	for cat_id in cat_id_list_to_del:
-		user.category_set.get(id=cat_id).delete()
-		json["result"] = "success"
-		json["cat_id_list_to_del"] = cat_id_list_to_del
+	json["result"] = "success"
+	json["cat_id_list_to_del"] = cat_id_list_to_del
 
 	return JsonResponse(json)
