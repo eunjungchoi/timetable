@@ -30,7 +30,7 @@ def index(request):
 @login_required
 def detail(request, study_id):
 	study = get_object_or_404(Study, pk=study_id)
-	owner = get_object_or_404(User, pk=study.user.id)
+	owner = study.user
 	timeline = get_object_or_404(Timeline, owner=owner)
 
 	is_owner = request.user.pk == owner.pk
