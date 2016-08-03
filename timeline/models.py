@@ -11,7 +11,6 @@ def get_profile_image(self):
 		url = 'https://graph.facebook.com/{0}/picture'.format(social.uid)
 	except UserSocialAuth.DoesNotExist:
 		url = ''
-
 	return url
 
 User.add_to_class("get_profile_image", get_profile_image)
@@ -107,7 +106,6 @@ class Category(models.Model):
 			return self.name
 
 
-
 class Timeline(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 	viewers = models.ManyToManyField(User, related_name ='viewers')
@@ -137,7 +135,6 @@ def create_user_default_timeline(sender, instance, created, **kwargs):
 # class ViewPermission(Models.Model)
 # 	user = models.ForeignKey(User)
 # 	viewer = models.ForeignKey(User)
-
 
 
 post_save.connect(create_user_default_timeline, sender=User)

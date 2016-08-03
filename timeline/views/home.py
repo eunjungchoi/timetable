@@ -11,20 +11,11 @@ from timeline.models import *
 def index(request):
 	user = request.user
 	study_list = user.studies.order_by("-date", "-created_at")
-	# study_list = LatestStudy.objects.filter(user=user)
-
 	context = {
 		'study_list' : study_list,
 		'categories' : user.category_set.all(),
 		}
 	return render(request, 'timeline/index.html', context)
-
-# 다른 방법. (오래 걸림)
-	# response = requests.request('GET', url,
-	# 	params={'redirect':0, 'access_token': social.extra_data['access_token']}
-	# 	)
-	# response.raise_for_status()
-	# profile_picture_url = response.json()['data']['url']
 
 
 @login_required
@@ -60,8 +51,6 @@ def cal(request):
 		item = {
 			"name": cat.name,
 			"num_study": cat.num_study,
-			# "studies" : [0] * 30,
-			# "date" : [today - timedelta(days=x) for x in reversed(range(30))]
 			"studies" : [[today - timedelta(days=x), 0] for x in reversed(range(30))],
 		}
 
@@ -78,6 +67,5 @@ def cal(request):
 		'month' : month,
 		'default_day': default_day,
 		'recent_study_list' : recent_study_list
-		# 'cal_dict' : cal_dict
 	}
 	return render(request, 'timeline/cal.html', context)
