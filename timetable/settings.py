@@ -29,6 +29,23 @@ DEBUG = bool(os.environ.get('DEBUG'))
 LOGIN_URL = '/login/'
 ALLOWED_HOSTS = []
 
+# Logging
+#
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
+        },
+    },
+}
 
 # Application definition
 
