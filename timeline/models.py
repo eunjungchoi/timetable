@@ -119,7 +119,6 @@ def create_user_default_timeline(sender, instance, created, **kwargs):
         Timeline.objects.create(owner=instance)
 
 
-
 #################
 # class Timeline >> 풀어서 쓰면,
 #
@@ -135,6 +134,5 @@ def create_user_default_timeline(sender, instance, created, **kwargs):
 # class ViewPermission(Models.Model)
 # 	user = models.ForeignKey(User)
 # 	viewer = models.ForeignKey(User)
-
 
 post_save.connect(create_user_default_timeline, sender=User)

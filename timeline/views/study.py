@@ -20,11 +20,9 @@ def add(request):
 	if 'photo' in request.FILES:
 		s.pic = request.FILES['photo']
 		s.resize_image(max_size=(720,720))
-
 	s.save()
 
 	cat_list = request.POST.getlist('category')
-
 	for cat_id in cat_list:
 		each_cat = Category.objects.filter(user=request.user).get(id=cat_id)
 		s.category.add(each_cat)
