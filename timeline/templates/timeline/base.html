@@ -53,11 +53,11 @@
 
 <body style="margin-bottom:60px">
 
-	<nav id="nav" class="navbar navbar-default">
+	<nav id="nav" class="navbar navbar-dark bg-primary">
 		{% block sidebar %}
 		<div class="container">
 	  		<div class="navbar-header">
-	    		<a class="navbar-brand" href="{% url 'index' %}">Timetable</a>
+	    		<a class="navbar-brand" style="color:#ffffff" href="{% url 'index' %}">Timetable</a>
 			</div>
 			<form class="navbar-form navbar-left" action="{% url 'search' %}" method="get" role="search">
 			{% csrf_token %}
@@ -74,7 +74,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li></li>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{{ user.get_profile_image }}" class="profile-image img-circle"> {{ user.username }} <span class="caret"></span></a>
+					<a href="#" class="dropdown-toggle" style="color:#ffffff" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{{ user.get_profile_image }}" class="profile-image img-circle"> {{ user.username }} <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="{% url 'cal' %}">Calendar</a></li>
 						<li><a href="{% url 'me' %}">Viewers</a></li>
