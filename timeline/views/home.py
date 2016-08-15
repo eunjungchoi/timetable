@@ -44,7 +44,7 @@ def cal(request):
 	cats = user.category_set.annotate(num_study=Count('study'))
 	month = range(30)
 	today = date.today()
-	default_day = today - timedelta(days=30)
+	default_day = today - timedelta(days=29)
 
 	categories = []
 	for cat in cats:
