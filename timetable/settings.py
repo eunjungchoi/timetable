@@ -76,6 +76,8 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'social.apps.django_app.context_processors.backends',
                 'social.apps.django_app.context_processors.login_redirect',
+                'timetable.context_processors.auth'
+
             ],
         },
     },
@@ -121,6 +123,8 @@ AUTHENTICATION_BACKENDS = (
     # 'social.backends.twitter.TwitterOAuth',
 )
 
+# AUTH_USER_MODEL = '';
+# SOCIAL_AUTH_USER_MODEL = 'timeline.models.UserProxy';
 
 # social.apps.django_app settings
 # https://github.com/omab/python-social-auth

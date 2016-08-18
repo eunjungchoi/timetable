@@ -5,15 +5,17 @@ from django.utils import timezone
 from social.apps.django_app.default.models import UserSocialAuth
 
 
-def get_profile_image(self):
-	try:
-		social = self.social_auth.get()
-		url = 'https://graph.facebook.com/{0}/picture'.format(social.uid)
-	except UserSocialAuth.DoesNotExist:
-		url = ''
-	return url
+class UserProxy(User):
+	class Meta:
+		proxy = True
 
-User.add_to_class("get_profile_image", get_profile_image)
+	def get_profile_image(self):
+		try:
+			social = self.social_auth.get()
+			url = 'https://graph.facebook.com/{0}/picture'.format(social.uid)
+		except UserSocialAuth.DoesNotExist:
+			url = ''
+		return url
 
 
 def user_directory_path(instance, filename):
