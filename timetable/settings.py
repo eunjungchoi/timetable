@@ -123,7 +123,7 @@ AUTHENTICATION_BACKENDS = (
     # 'social.backends.twitter.TwitterOAuth',
 )
 
-# AUTH_USER_MODEL = '';
+# AUTH_USER_MODEL = 'timeline.UserExtended';
 # SOCIAL_AUTH_USER_MODEL = 'timeline.models.UserProxy';
 
 # social.apps.django_app settings
@@ -138,6 +138,19 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'fields': 'id, name, email, age_range'
 }
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.user.create_user',
+    'timeline.models.save_profile',  # <--- set the path to the function
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+)
 
 # session serializer required by social app
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'

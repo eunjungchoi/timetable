@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.utils import timezone
+from django.dispatch import receiver
+
 from social.apps.django_app.default.models import UserSocialAuth
 
 
@@ -15,8 +17,30 @@ class UserProxy(User):
 			url = 'https://graph.facebook.com/{0}/picture'.format(social.uid)
 		except UserSocialAuth.DoesNotExist:
 			url = ''
-		return url
+		return ""
 
+class UserProfile(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+	image = models.CharField(max_length=300)
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+	if created:
+		UserProfile.objects.create(user=instance)
+	else:
+		instance.profile.save()
+
+# @receiver(post_save, sender=UserSocialAuth)
+# def social_auth_created(sender, instance, created, **kwargs):
+# 	if created:
+# 		# user_profile = instance.user.profile
+# 		instance.user.profile.image = 'https://graph.facebook.com/{0}/picture'.format(instance.uid)
+# 		instance.user.profile.save()
+
+def save_profile(backend, user, response, *args, **kwargs):
+	profile = user.profile
+	profile.image = 'https://graph.facebook.com/{0}/picture'.format(response.get('id'))
+	profile.save()
 
 def user_directory_path(instance, filename):
     return 'timeline/{0}_{1}_{2}'.format(instance.user.id, int(timezone.now().timestamp()), filename)
@@ -117,9 +141,10 @@ class Timeline(models.Model):
 
 
 def create_user_default_timeline(sender, instance, created, **kwargs):
-    if created:
-        Timeline.objects.create(owner=instance)
+	if created:
+		Timeline.objects.create(owner=instance)
 
+post_save.connect(create_user_default_timeline, sender=User)
 
 #################
 # class Timeline >> 풀어서 쓰면,
@@ -136,5 +161,3 @@ def create_user_default_timeline(sender, instance, created, **kwargs):
 # class ViewPermission(Models.Model)
 # 	user = models.ForeignKey(User)
 # 	viewer = models.ForeignKey(User)
-
-post_save.connect(create_user_default_timeline, sender=User)
