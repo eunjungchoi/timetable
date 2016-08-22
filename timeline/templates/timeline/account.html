@@ -14,7 +14,8 @@
 			</form> -->
 			<p class="navbar-text navbar-right">{{ user.username }} <a href="{% url 'log_out' %}" class="navbar-link">로그아웃</a></p>
 		<div class="navbar-right" style="margin: 10px 0;">
-			<img src="{{ user.profile.image }}" width="30" height="30">
+			<img src="{{ user.get_profile_image }}" width="30" height="30">
+			<img src="{{ request.user.get_profile_image }}" width="30" height="30">
 		</div>
 	</div>
 	{% endblock %}
